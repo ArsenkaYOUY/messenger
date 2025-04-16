@@ -16,7 +16,7 @@ export class TokenService {
         return jwt.sign({
             id : user.id,
             email : user.email,
-            username: user.username,
+            username: user.username
         }, this.accessSecret,
             { expiresIn: this.accessExpiresIn });
     }

@@ -23,9 +23,9 @@ export function setupFormHandlers() {
                     const data = await result.json();
 
                     if (data.success) {
-                        localStorage.setItem('token', data.accessToken);
-                        alert(data.message);
-                        // window.location.href = 'chat.html';
+                        localStorage.setItem('accessToken', data.accessToken);
+                        localStorage.setItem('userData', JSON.stringify(data.user));
+                        window.location.replace('chat.html');
                     } else {
                         fieldErrorsElement.textContent = data.error || 'Ошибка';
                     }

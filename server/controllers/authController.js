@@ -20,16 +20,16 @@ export async function loginUser(req, res) {
         }
 
         const tokens = new TokenService();
-        const { accessToken, refreshToken } = tokens.generateTokens(user)
+        const { accessToken, refreshToken } = await tokens.generateTokens(user)
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: false,
             sameSite: 'Strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000
+            maxAge: 30 * 24 * 60 * 60 * 1000
         });
 
-        return res.status(200).json(loginSuccessResponse(user, accessToken));
+        return res.status(201).json(loginSuccessResponse(user, accessToken));
     } catch (error) {
         return res.status(401).json(loginErrorResponse("Ошибка аутентификации"));
     }
@@ -52,7 +52,7 @@ export async function registerUser(req, res) {
                 httpOnly: true,
                 secure: false,
                 sameSite: 'Strict',
-                maxAge: 7 * 24 * 60 * 60 * 1000
+                maxAge: 30 * 24 * 60 * 60 * 1000
             });
 
             return res.status(201).json(registerSuccessResponse(newUser, accessToken));
@@ -68,6 +68,6 @@ export async function registerUser(req, res) {
             }
         }
 
-        return res.status(401).json(registerErrorResponse(message));
+        return res.status(409).json(registerErrorResponse(message));
     }
 }

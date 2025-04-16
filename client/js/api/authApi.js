@@ -6,7 +6,7 @@ export async function loginRequest(data) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
     });
-    return res.json();
+    return res;
 }
 
 export async function registerRequest(data) {

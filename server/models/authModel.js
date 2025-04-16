@@ -27,7 +27,6 @@ export async function authenticateUser(username) {
     }
 }
 
-// return result.rows[0];
 export async function getUserByID(userId) {
     try {
         const result = await db.query(
