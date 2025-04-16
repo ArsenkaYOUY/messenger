@@ -1,0 +1,14 @@
+{
+  "type" : "module",
+  "devDependencies": {
+    "@types/node": "^22.14.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "pg": "^8.14.1",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.5.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

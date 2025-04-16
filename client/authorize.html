@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/authorize-styles.css">
+    <link rel="stylesheet" href="styles/reset.css">
+    <title>Wire</title>
+</head>
+<body>
+    <header></header>
+
+    <main>
+        <section class="authorize">
+            <div class="container">
+                <div class="login-card card fade-in">
+                    <img src="images/logo.png" class="logo" alt="">
+                    <h1 class="card-title">
+                        Вход
+                    </h1>
+                    <form method="POST" id="login-form" class="card-form" action="#" novalidate data-js-form>
+                        <div class="login-input-wrapper">
+                            <input type="text"
+                                   id="login"
+                                   class="input login-input"
+                                   placeholder="Логин"
+                                   minlength="3"
+                                   maxlength="15"
+                                   pattern="^[A-Za-z][A-Za-z0-9_.\-]*$"
+                                   title="Пожалуйста, введите существующий логин"
+                                   name="username"
+                                   required>
+                            <span class="login-input-icon"></span>
+                            <span class="field__errors" data-js-form-field-error></span>
+                        </div>
+                        <div class="password-input-wrapper">
+                            <input type="password"
+                                   id="password"
+                                   autocomplete="new-password"
+                                   class="input password-input"
+                                   placeholder="Пароль"
+                                   name="password"
+                                   minlength="8"
+                                   maxlength="16"
+                                   pattern="^(?=.*[a-z])(?=.*[A-Z])[A-Za-z0-9._\-]+$"
+                                   title="Пароль должен содержать латинские буквы, хотя бы одну заглавную и строчную, цифры и символы . _ -"
+                                   required>
+                            <span class="password-input-icon"></span>
+                            <span class="password-input-eye"></span>
+                            <span class="field__errors" data-js-form-field-error></span>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" id="checkbox-remember" class="checkbox-box">
+                            <label for="checkbox-remember" class="checkbox-label" >Запомнить меня</label>
+                        </div>
+                        <button type="submit" class="login-btn primary-btn card-button">
+                            Войти
+                        </button>
+                    </form>
+                    <button class="create-account-btn secondary-btn card-button">
+                        Создать аккаунт
+                    </button>
+                    <a class="forgot-password-link" href="#">
+                        Забыли пароль?
+                    </a>
+                </div>
+
+                <div class="register-card card hide">
+                    <img src="images/logo.png" class="logo" alt="">
+                    <h1 class="card-title">
+                        Регистрация
+                    </h1>
+                    <button class="back-img-btn back-btn">
+                        <img src="images/back_arrow.png" class="back-to-login-img back-to-login" alt="Назад">
+                    </button>
+                    <form method="POST" id="registration-form" class="card-form" action="#" novalidate data-js-form>
+                        <div class="login-input-wrapper">
+                            <input type="text"
+                                   id="reg-login"
+                                   class="input login-input"
+                                   minlength="3"
+                                   maxlength="15"
+                                   pattern="^[A-Za-z][A-Za-z0-9_.\-]*$"
+                                   title="Пожалуйста, введите существующий логин"
+                                   placeholder="Логин"
+                                   name="reg_username"
+                                   required>
+                            <span class="login-input-icon"></span>
+                            <span class="field__errors" data-js-form-field-error></span>
+                        </div>
+                        <div class="email-input-wrapper">
+                            <input type="text"
+                                   class="input email-input"
+                                   id="reg-email"
+                                   maxlength="30"
+                                   pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                                   title="Введите корректный email, например: name@example.com"
+                                   placeholder="Email"
+                                   name="email"
+                                   required>
+                            <span class="email-input-icon"></span>
+                            <span class="field__errors" data-js-form-field-error></span>
+                        </div>
+                        <div class="password-input-wrapper">
+                            <input type="password"
+                                   autocomplete="new-password"
+                                   id="reg-password"
+                                   class="input password-input"
+                                   placeholder="Пароль"
+                                   minlength="8"
+                                   maxlength="16"
+                                   pattern="^(?=.*[a-z])(?=.*[A-Z])[A-Za-z0-9._\-]+$"
+                                   title="Пароль должен содержать латинские буквы, хотя бы одну заглавную и строчную, цифры и символы . _ -"
+                                   name="reg_password"
+                                   required>
+                            <span class="password-input-icon"></span>
+                            <span class="password-input-eye"></span>
+                            <span class="field__errors" data-js-form-field-error></span>
+                        </div>
+                        <div class="password-input-wrapper">
+                            <input type="password"
+                                   id="reg-confirm-password"
+                                   autocomplete="new-password"
+                                   class="input password-input"
+                                   minlength="8"
+                                   maxlength="16"
+                                   pattern="^(?=.*[a-z])(?=.*[A-Z])[A-Za-z0-9._\-]+$"
+                                   title="Пароль должен содержать латинские буквы, хотя бы одну заглавную и строчную, цифры и символы . _ -"
+                                   placeholder="Повторите пароль"
+                                   data-confirm-password="password"
+                                   required>
+                            <span class="password-input-icon"></span>
+                            <span class="password-input-eye"></span>
+                            <span class="field__errors" data-js-form-field-error></span>
+                        </div>
+                        <button type="submit" class="register-btn primary-btn card-button">
+                            Зарегистрироваться
+                        </button>
+                    </form>
+                    <button class="back-to-login-btn back-to-login secondary-btn card-button">
+                        У меня уже есть аккаунт
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer></footer>
+
+    <script type="module" src="js/authMain.js"></script>
+</body>
+</html>

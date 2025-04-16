@@ -1,0 +1,369 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Yantramanav:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Yantramanav:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Heebo:wght@100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Yantramanav:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Heebo:wght@100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Yantramanav:wght@100;300;400;500;700;900&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+.hide {
+    display: none !important;
+}
+
+.field__errors {
+    display: block;
+    color: #e74c3c; /* Красный для ошибок */
+    font-size: 10px;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    line-height: 1.2;
+    min-height: 0.9em;
+}
+
+.input-error {
+    border-radius: 20px;
+    /*box-shadow: 0 0 4px 2px rgba(255,0,0,0.8);*/
+
+    box-shadow: 0 0 0 1px rgba(255, 0, 0, 0.7);
+}
+
+body {
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    background: linear-gradient(to left, rgba(38, 88, 204, 1) 0%, rgba(64, 147, 255, 1) 100%);
+
+    font-style: normal;
+    line-height: normal;
+}
+
+.logo {
+    position: absolute;
+    top: 3px;
+    right: 12px;
+    width: 50px;
+    height: auto;
+}
+
+.card {
+    position: relative;
+    margin-block: 10vh;
+    margin-inline: auto;
+    padding: 7vh 5vh;
+
+    width: clamp(300px, 70vw, 450px);
+    height: clamp(395px, 80vh, 700px);
+    background-color: #ffffff;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 1;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateX(-160px) scale(0.75);
+    filter: blur(3px);
+    transition: opacity 0.7s ease, transform 0.7s ease, filter 0.2s ease;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+}
+
+.authorize {
+    overflow : hidden;
+}
+
+.hide-login {
+    animation: slideOutToRight 0.7s ease-in-out;
+}
+
+.show-login {
+    animation: slideInFrRight 0.7s ease-in-out;
+}
+
+.hide-register {
+    animation: slideOutToLeft 0.7s ease-in-out;
+}
+
+.show-register {
+    animation: slideInFrLeft 0.7s ease-in-out;
+}
+
+@keyframes slideOutToRight {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        transform: translateX(110%);
+    }
+}
+
+@keyframes slideInFrLeft {
+    from {
+        transform: translateX(-110%);
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFrRight {
+    from {
+        transform: translateX(110%);
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutToLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-110%);
+    }
+}
+
+.card-form {
+    width: 100%;
+}
+
+.card-title {
+    font-size: clamp(24px, 1.8vw, 40px);
+    font-weight: 400;
+    margin-bottom: 17px;
+}
+
+.input {
+    display: block;
+
+    background-color: #EEE;
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+    height: 30px;
+    padding: 10px 40px;
+
+    font-family: "IBM Plex Mono", sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    /*margin-bottom: 15px;*/
+    transition: background 0.1s ease-in-out;
+}
+
+.input:hover {
+    background-color: #CFCFCF;
+}
+
+.input:focus {
+    outline: none;
+    border: 1px solid #D9D9D9;
+}
+
+.login-input-wrapper {
+    position: relative;
+}
+
+.login-input-icon {
+    display: block;
+    width: 19px;
+    height: 19px;
+    position: absolute;
+    left: 14px;
+    top: 5px;
+    background: url('../images/user.png') center/contain no-repeat;
+    pointer-events: none;
+}
+
+.password-input-wrapper {
+    position: relative;
+}
+
+.password-input-icon::before {
+    content: '';
+    display: block;
+    width: 21px;
+    height: 21px;
+
+    position: absolute;
+    left: 13px;
+    top: 4px;
+
+    background: url('../images/lock.png') center/contain no-repeat;
+    pointer-events: none;
+}
+
+.password-input-eye {
+    content: '';
+    display: block;
+    width: 21px;
+    height: 21px;
+
+    position: absolute;
+    right: 11px;
+    top: 4px;
+
+    background: url('../images/eye.png') center/contain no-repeat;
+    cursor: pointer;
+}
+
+.password-visible {
+    background: url('../images/eye-crossed.png') center/contain no-repeat;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.checkbox-label {
+    cursor: pointer;
+    font-family: "Crimson Pro", sans-serif;
+    opacity: 50%;
+    font-size: 12px;
+    font-weight: 400;
+    transition: all 0.1s ease-in-out;
+}
+
+.checkbox-label:hover {
+    opacity: 0.72;
+}
+
+.checkbox-box {
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+
+.checkbox-box:hover {
+    opacity: 0.8;
+}
+
+.card-button {
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 12px;
+    height: 38px;
+    border: none;
+    color: #fff;
+    margin-bottom: 12px;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.primary-btn {
+    background: linear-gradient(90deg, rgba(38, 88, 204, 0.90) 0%, #4093FF 100%);
+}
+
+.primary-btn:hover {
+    opacity: 0.93;
+}
+
+.secondary-btn {
+    background-color: #fff ;
+    color: #000;
+    min-height: 38px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    margin-bottom: 20px;
+    transition: background 0.12s ease-in-out;
+}
+
+.secondary-btn:hover {
+    background-color: #faf9f9 ;
+}
+
+.forgot-password-link {
+    align-self: flex-start;
+    color: #4093FF;
+    font-family: "Montserrat", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.forgot-password-link:hover {
+    color: #0F5F9A;
+    opacity: 0.9;
+}
+
+.email-input-wrapper {
+    position: relative;
+}
+
+.email-input-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 14px;
+    top: 7px;
+    background: url('../images/mail.png') center/contain no-repeat;
+    pointer-events: none;
+}
+
+.back-img-btn {
+    background : none;
+    border: none;
+    position: absolute;
+    top: 8px;
+    left: 10px;
+}
+
+.back-to-login-img {
+    object-fit: contain;
+    width: 27px;
+    height: auto;
+}
+
+
+@media(max-height: 590px) {
+    .card {
+        padding: 3vh;
+        margin-block: 13vh;
+    }
+}
+
+@media(max-height: 550px) {
+    .field__errors {
+        margin-top: 2px;
+        margin-bottom: 5px;
+    }
+    .card {
+        padding: 3vh;
+        margin-block: 8vh;
+    }
+}
+
+@media(max-height: 500px) {
+
+    .checkbox {
+        margin-bottom: 10px;
+    }
+
+    .card-title {
+        margin-bottom: 10px;
+    }
+
+    .secondary-btn {
+        margin-bottom: 13px;
+    }
+}
