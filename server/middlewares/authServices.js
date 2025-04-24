@@ -9,9 +9,10 @@ export function authenticateUserToken(req, res, next) {
             error: 'Токен не предоставлен'
         })
     }
+
     jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, userData) => {
         if (err) {
-            return res.status(403).json( {
+            return res.status(401).json( {
                 success: false,
                 error: 'Невалидный токен'
             })

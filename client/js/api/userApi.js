@@ -9,3 +9,11 @@ export async function checkTokenRequest(token) {
     })
     return result;
 }
+
+export async function refreshTokenRequest() {
+    const result = await fetch('http://localhost:3000/api/auth/refresh', {
+        method: 'POST',
+        credentials: 'include'
+    })
+    return result;
+}

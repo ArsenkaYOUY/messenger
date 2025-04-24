@@ -9,16 +9,20 @@ import {
 
 export async function refreshToken(req, res) {
     const tokenService = new TokenService();
-    const token = req.cookies.refreshToken;
-    if (!token) {
+    console.log('cookies: ', JSON.stringify(req.cookies));
+    const cookRefreshToken= req.cookies.refreshToken;
+    if (!cookRefreshToken) {
         return res.status(401).json(refreshErrorResponse('Сеанс закончен. Повторите вход'))
     }
 
     try {
-        const payload = tokenService.verifyRefreshToken(token);
+        const payload = tokenService.verifyRefreshToken(cookRefreshToken);
+        console.log('refreshController payload.id: ' + payload.id)
         const refreshToken = await getRefreshToken(payload.id);
+        console.log('refreshToken: ', refreshToken);
+        console.log('cookRefreshToken: ', cookRefreshToken)
 
-        if (token !== refreshToken) {
+        if (cookRefreshToken !== refreshToken) {
             return res.status(403).json(refreshErrorResponse('Ошибка авторизации. Повторите вход'))
         }
 
@@ -26,7 +30,7 @@ export async function refreshToken(req, res) {
 
         const newAccessToken = tokenService.generateAccessToken(userData)
         return res.status(200).json({
-            token: newAccessToken
+            accessToken: newAccessToken
         })
     }
     catch (error) {

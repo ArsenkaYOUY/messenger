@@ -25,9 +25,13 @@ export async function loginUser(req, res) {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: false,
-            sameSite: 'Strict',
+            sameSite: 'Lax',
+            domain: 'localhost',
+            path: '/',
             maxAge: 30 * 24 * 60 * 60 * 1000
         });
+        res.header('Access-Control-Allow-Origin', 'http://localhost:63342');
+        res.header('Access-Control-Allow-Credentials', 'true');
 
         return res.status(201).json(loginSuccessResponse(user, accessToken));
     } catch (error) {
@@ -51,7 +55,7 @@ export async function registerUser(req, res) {
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
                 secure: false,
-                sameSite: 'Strict',
+                sameSite: 'Lax',
                 maxAge: 30 * 24 * 60 * 60 * 1000
             });
 

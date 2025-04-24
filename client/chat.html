@@ -2,12 +2,58 @@
 <html lang="ru">
     <head>
         <title>Wire</title>
-        <link  rel="stylesheet" href="./styles/authorize-styles.css">
+<!--        <link  rel="stylesheet" href="./styles/authorize-styles.css">-->
+        <link rel="stylesheet" href="./styles/reset.css">
     </head>
     <body>
     <div id="app" class="hide">
         <h1>WELCOME TO WIRE CHAT </h1>
     </div>
+
+    <header></header>
+
+    <main>
+        <section class="side-menu">
+            <div class="side-menu__container">
+                <ul class="side-menu-list">
+                    <li class="side-menu-item">
+                        <a href="" class="side-menu-link">
+                            <img src="images/home.png" class="side-menu-icon" alt="home">
+                        </a>
+                    </li>
+                    <li class="side-menu-item">
+                        <a href="" class="side-menu-link">
+                            <img src="images/messages.png" class="side-menu-icon" alt="messages">
+                        </a>
+                    </li>
+                    <li class="side-menu-item">
+                        <a href="" class="side-menu-link">
+                            <img src="images/settings.png" class="side-menu-icon" alt="settings">
+                        </a>
+                    </li>
+                    <li class="side-menu-item">
+                        <a href="" class="side-menu-link">
+                            <img src="images/profile.png" class="side-menu-icon" alt="profile">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="chats">
+            <div class="search-input__container">
+                <input placeholder="Поиск" class="search-input">
+            </div>
+
+<!--            ?? -->
+            <div class="chat-tab"></div>
+            <div class="chat-tab"></div>
+        </section>
+
+        <section class="dialog"></section>
+    </main>
+
+    <footer></footer>
 
     <script src="js/chatMain.js" type="module"></script>
     </body>
