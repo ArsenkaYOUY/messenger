@@ -23,10 +23,9 @@ export async function loginUser(req, res) {
         const { accessToken, refreshToken } = await tokens.generateTokens(user)
 
         res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
+            httpOnly: false,
             secure: false,
             sameSite: 'Lax',
-            domain: 'localhost',
             path: '/',
             maxAge: 30 * 24 * 60 * 60 * 1000
         });
@@ -53,9 +52,10 @@ export async function registerUser(req, res) {
             const { accessToken, refreshToken } = await tokens.generateTokens(newUser)
 
             res.cookie('refreshToken', refreshToken, {
-                httpOnly: true,
+                httpOnly: false,
                 secure: false,
                 sameSite: 'Lax',
+                path: '/',
                 maxAge: 30 * 24 * 60 * 60 * 1000
             });
 

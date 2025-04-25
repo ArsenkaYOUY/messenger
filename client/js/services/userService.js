@@ -10,13 +10,15 @@ export async function manipulateUserToken(accessToken) {
             if (refreshResult.ok) {
                 const refreshData = await refreshResult.json();
                 console.log('Refresh result : ', JSON.stringify(refreshData));
-                const { newAccessToken } = refreshData;
+                const newAccessToken  = refreshData.accessToken;
+
+                console.log('new accessToken: ', newAccessToken);
 
                 localStorage.setItem('accessToken', newAccessToken);
-
                 result = await checkTokenRequest(newAccessToken);
             }
             else {
+                console.log('userService code : error: !refreshResult.ok');
                 localStorage.removeItem('accessToken');
                 return { ok : false}
             }
@@ -24,7 +26,7 @@ export async function manipulateUserToken(accessToken) {
         return result;
     }
     catch (error) {
-        console.log('manipulateUserToken error: ', error);
+        console.log('userService: manipulateUserToken error: ', error);
         return { ok: false };
 
     }

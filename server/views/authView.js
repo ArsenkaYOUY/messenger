@@ -19,7 +19,6 @@ export function loginErrorResponse(errorMessage) {
 }
 
 export function registerSuccessResponse(user, accessToken) {
-
     return {
         success: true,
         message: "Регистрация прошла успешно",

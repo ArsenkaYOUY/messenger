@@ -1,6 +1,9 @@
 import { loginUser, registerUser } from '../services/authService.js';
 import { FormValidate } from '../validate/form-validate.js';
 
+//
+import { refreshTokenRequest } from "../api/userApi.js";
+
 export function setupFormHandlers() {
     const forms = document.querySelectorAll('[data-js-form]');
 
@@ -25,7 +28,7 @@ export function setupFormHandlers() {
                     if (data.success) {
                         localStorage.setItem('accessToken', data.accessToken);
                         localStorage.setItem('userData', JSON.stringify(data.user));
-                        // window.location.replace('chat.html');
+                        window.location.replace('chat.html');
                     } else {
                         fieldErrorsElement.textContent = data.error || 'Ошибка';
                     }

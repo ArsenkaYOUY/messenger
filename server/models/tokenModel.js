@@ -17,9 +17,10 @@ export async function saveRefreshToken(userId, refreshToken) {
 export async function getRefreshToken(userId) {
     try {
         const result = await db.query(
-            'SELECT * FROM users WHERE id = $1 RETURNING *', [userId]
+            'SELECT * FROM users WHERE id = $1', [userId]
         )
-        return result.rows[0];
+        const user = result.rows[0];
+        return user.refresh_token;
     }
     catch (error) {
         throw error;
