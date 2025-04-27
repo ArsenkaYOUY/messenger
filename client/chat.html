@@ -1,38 +1,35 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Wire</title>
-<!--        <link  rel="stylesheet" href="./styles/authorize-styles.css">-->
+        <link  rel="stylesheet" href="./styles/chat-styles.css">
         <link rel="stylesheet" href="./styles/reset.css">
     </head>
     <body>
-    <div id="app" class="hide">
-        <h1>WELCOME TO WIRE CHAT </h1>
-    </div>
-
     <header></header>
-
-    <main>
+    <main class="main-content">
         <section class="side-menu">
             <div class="side-menu__container">
                 <ul class="side-menu-list">
                     <li class="side-menu-item">
-                        <a href="" class="side-menu-link">
+                        <a data-target="home" class="side-menu-link">
                             <img src="images/home.png" class="side-menu-icon" alt="home">
                         </a>
                     </li>
                     <li class="side-menu-item">
-                        <a href="" class="side-menu-link">
+                        <a data-target="chats" class="side-menu-link active">
                             <img src="images/messages.png" class="side-menu-icon" alt="messages">
                         </a>
                     </li>
                     <li class="side-menu-item">
-                        <a href="" class="side-menu-link">
+                        <a data-target="settings" class="side-menu-link">
                             <img src="images/settings.png" class="side-menu-icon" alt="settings">
                         </a>
                     </li>
                     <li class="side-menu-item">
-                        <a href="" class="side-menu-link">
+                        <a data-target="profile" class="side-menu-link">
                             <img src="images/profile.png" class="side-menu-icon" alt="profile">
                         </a>
                     </li>
@@ -40,21 +37,154 @@
             </div>
         </section>
 
-        <section class="chats">
-            <div class="search-input__container">
-                <input placeholder="Поиск" class="search-input">
+
+        <section id="chats" class="content-section chats-section hide">
+            <div class="chat-container">
+                <div class="search-container">
+                    <input placeholder="Поиск" class="search-input">
+                </div>
+
+                <div class="empty-state">
+                    <div id="lottie-no-chats" style="width: 200px; height: 200px;"></div>
+                    <h3 class="empty-state-title">У вас пока нет чатов</h3>
+                    <p class="empty-state-description">Начните общаться сейчас!</p>
+                </div>
+
+                <!--            ?? -->
+<!--                <div class="chat-item">-->
+<!--                    <div class="chat-avatar">-->
+<!--                        <div class="chat-avatar-box"></div>-->
+<!--                           <img src="images/user.png" alt="Аватар">&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="chat-content">-->
+<!--                        <div class="chat-header">-->
+<!--                            <span class="chat-name">Ваня</span>-->
+<!--                            <span class="chat-time">14:11</span>-->
+<!--                        </div>-->
+<!--                        <div class="chat-preview">-->
+<!--                            <span class="chat-text">Привет!ПриветПриветПриветПриветПриветПриветПриветПриветПриветПривет</span>-->
+<!--                            &lt;!&ndash; Иконка прочитано/не прочитано &ndash;&gt;-->
+<!--                            <span class="chat-status"></span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
             </div>
 
-<!--            ?? -->
-            <div class="chat-tab"></div>
-            <div class="chat-tab"></div>
+            <div class="dialog-container hide">
+                <div class="dialog-header">
+                    <div class="dialog-partner">
+                        <div class="chat-avatar-box"></div>
+                        <!--<img src="images/user.png" alt="Аватар">-->
+                        <span class="dialog-name">Ваня</span>
+                    </div>
+                </div>
+
+                <div class="dialog-messages">
+                    <!-- Скелетон-загрузка (показывается, если нет сообщений) -->
+                    <div class="empty-state">
+                        <div id="lottie-no-messages" style="width: 200px; height: 200px;"></div>
+                        <h3 class="empty-state-title">Здесь пока пусто</h3>
+                        <p class="empty-state-description">Напишите первое сообщение!</p>
+                    </div>
+
+                    <!-- Контейнер для реальных сообщений (изначально скрыт) -->
+                    <div class="real-messages hide"></div>
+                </div>
+
+                <div class="dialog-input-container">
+                    <input type="text" class="dialog-input" placeholder="Сообщение...">
+                    <button class="send-button">Отправить</button>
+                </div>
+            </div>
         </section>
 
-        <section class="dialog"></section>
+
+        <section id="home" class="content-section hide">Главная</section>
+        <section id="settings" class="content-section hide">Настройки</section>
+
+        <section id="profile" class="content-section profile-section hide">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="images/my-avatar.jpg" alt="Аватар">
+                        <div class="avatar-status online"></div>
+                    </div>
+                    <h1 class="profile-full-name">Арсений</h1>
+                    <p class="profile-status online">в сети</p>
+                </div>
+
+                <div class="description-section">
+                    <label for="desc-input" class="hint">Любые подробности, например: возраст, род занятий или город.</label>
+                    <input id="desc-input" class="description-input" type="text" placeholder="О себе">
+                </div>
+
+                <div class="information-section">
+<!--                    <div class="info-row">-->
+<!--                        <span class="info-label">Имя</span>-->
+<!--                        <span class="info-value">Арсений</span>-->
+<!--                    </div>-->
+<!--                    <div class="info-row">-->
+<!--                        <span class="info-label">Адрес электронной почты</span>-->
+<!--                        <span class="info-value">arsenjik12@gmail.com</span>-->
+<!--                    </div>-->
+
+<!--                    <div class="info-row">-->
+<!--                        <span class="info-label">Имя пользователя</span>-->
+<!--                        <span class="info-value">@arsnkmr05</span>-->
+<!--                    </div>-->
+
+                    <div class="info-row" data-field="name">
+                        <span class="info-label">Имя</span>
+                        <div class="info-action">
+                            <span class="info-value">Арсений</span>
+                            <input type="text" class="info-edit" value="Арсений" style="display: none;">
+                            <button class="info-edit-btn" aria-label="Редактировать">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="info-row" data-field="email">
+                        <span class="info-label">Адрес электронной почты</span>
+                        <div class="info-action">
+                            <span class="info-value">arsenjik12@gmail.com</span>
+                            <input type="email" class="info-edit" value="arsenjik12@gmail.com" style="display: none;">
+                            <button class="info-edit-btn" aria-label="Редактировать">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="info-row" data-field="username">
+                        <span class="info-label">Имя пользователя</span>
+                        <div class="info-action">
+                            <span class="info-value">@arsnkmr05</span>
+                            <input type="text" class="info-edit" value="arsnkmr05" style="display: none;">
+                            <button class="info-edit-btn" aria-label="Редактировать">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <p class="hint">С помощью имени пользователя люди смогут связаться с Вами в Telegram</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer></footer>
 
     <script src="js/chatMain.js" type="module"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+
     </body>
 </html>

@@ -1,24 +1,13 @@
 'use strict'
 
-import { setupCheckHandler } from './handlers/setupCheckHandler.js'
+import { checkAuthSession } from "./services/checkAuthSession.js";
+import { setupIconActiveStateSwitch, loadContent} from "./ui/chatUi.js";
+import { setupAllEmptyStates} from "./ui/emptyStatesSetup.js";
 
 document.addEventListener('DOMContentLoaded', async() => {
-    const res = await setupCheckHandler();
-    if (!res.isValid) {
-        alert('Сессия истекла. Войдите в систему заново');
-        window.location.replace('authorize.html');
-        return;
-    }
+    await checkAuthSession();
+    setupIconActiveStateSwitch();
+    loadContent('chats')
+    setupAllEmptyStates()
 
-    console.log('user data: ', res.user);
-
-    document.querySelector('#app').classList.remove('hide');
-
-    setInterval(async () => {
-        const res = await setupCheckHandler();
-        if (!res.isValid) {
-            alert('Сессия истекла. Войдите в систему заново');
-            window.location.replace('authorize.html');
-        }
-    }, 5000)
 })

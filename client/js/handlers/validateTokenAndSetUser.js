@@ -2,7 +2,7 @@
 
 import { manipulateUserToken } from "../services/userService.js";
 
-export async function setupCheckHandler() {
+export async function validateTokenAndSetUser() {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
         return { isValid: false };
@@ -14,10 +14,13 @@ export async function setupCheckHandler() {
             throw new Error('Token is invalid');
         }
 
-        const userData = await response.json();
+        if (!localStorage.getItem('userData')) {
+            const userData = await response.json();
+            localStorage.setItem('userData', JSON.stringify(userData));
+        }
+
         return {
-            isValid: true,
-            user: userData
+            isValid: true
         };
 
     } catch (error) {

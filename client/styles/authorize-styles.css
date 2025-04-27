@@ -7,13 +7,24 @@
     box-sizing: border-box;
 }
 
+body {
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    /*background: linear-gradient(to left, rgba(38, 88, 204, 1) 0%, rgba(64, 147, 255, 1) 100%);*/
+    background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+    font-style: normal;
+    line-height: normal;
+}
+
 .hide {
     display: none !important;
 }
 
 .field__errors {
     display: block;
-    color: #e74c3c; /* Красный для ошибок */
+    color: #c13e4b;
+    font-weight: 500;
     font-size: 10px;
     margin-top: 5px;
     margin-left: 10px;
@@ -22,22 +33,23 @@
     min-height: 0.9em;
 }
 
-.input-error {
-    border-radius: 20px;
-    /*box-shadow: 0 0 4px 2px rgba(255,0,0,0.8);*/
+/*.input-error {*/
+/*    border-radius: 20px;*/
+/*    !*box-shadow: 0 0 4px 2px rgba(255,0,0,0.8);*!*/
 
-    box-shadow: 0 0 0 1px rgba(255, 0, 0, 0.7);
-}
+/*    border-color: #c13e4b;*/
+/*    box-shadow: 0 0 0 1px rgba(255, 0, 0, 0.7);*/
+/*    animation: gentle-shake 0.4s ease;*/
+/*}*/
 
-body {
-    color: #000;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    background: linear-gradient(to left, rgba(38, 88, 204, 1) 0%, rgba(64, 147, 255, 1) 100%);
+/*@keyframes gentle-shake {*/
+/*    0%, 100% { transform: translateX(0); }*/
+/*    20% { transform: translateX(-2px); }*/
+/*    40% { transform: translateX(2px); }*/
+/*    60% { transform: translateX(-1px); }*/
+/*    80% { transform: translateX(1px); }*/
+/*}*/
 
-    font-style: normal;
-    line-height: normal;
-}
 
 .logo {
     position: absolute;
@@ -55,9 +67,14 @@ body {
 
     width: clamp(300px, 70vw, 450px);
     height: clamp(395px, 80vh, 700px);
-    background-color: #ffffff;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(0, 0, 0, 0.03);
     border-radius: 20px;
+    box-shadow:
+            0 1px 0 rgba(0, 0, 0, 0.01),
+            0 8px 32px rgba(0, 0, 0, 0.05);
 
+    backdrop-filter: blur(12px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -153,8 +170,8 @@ body {
 .input {
     display: block;
 
-    background-color: #EEE;
-    border: none;
+    background-color: #f9f9f9;
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 20px;
     width: 100%;
     height: 30px;
@@ -166,16 +183,16 @@ body {
     font-weight: 400;
     line-height: normal;
     /*margin-bottom: 15px;*/
-    transition: background 0.1s ease-in-out;
+    transition: all 0.3s ease;
 }
 
 .input:hover {
-    background-color: #CFCFCF;
+    background: #f1f1f1;
 }
 
 .input:focus {
-    outline: none;
-    border: 1px solid #D9D9D9;
+    border-color: #1a2b3c;
+    box-shadow: 0 0 0 2px rgba(26, 43, 60, 0.05);
 }
 
 .login-input-wrapper {
@@ -270,24 +287,29 @@ body {
 }
 
 .primary-btn {
-    background: linear-gradient(90deg, rgba(38, 88, 204, 0.90) 0%, #4093FF 100%);
+    /*background: linear-gradient(90deg, rgba(38, 88, 204, 0.90) 0%, #4093FF 100%);*/
+    background: #1a2b3c;
+    color: white;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .primary-btn:hover {
-    opacity: 0.93;
+    background: #0d1a26;
+    box-shadow: 0 4px 12px rgba(26, 43, 60, 0.15);
 }
 
 .secondary-btn {
-    background-color: #fff ;
-    color: #000;
+    background: transparent;
+    color: #333;
     min-height: 38px;
-    border: 1px solid rgba(0, 0, 0, 0.50);
+    border: 1px solid rgba(0, 0, 0, 0.12);
     margin-bottom: 20px;
-    transition: background 0.12s ease-in-out;
+    transition: all 0.3s ease;
 }
 
 .secondary-btn:hover {
-    background-color: #faf9f9 ;
+    border-color: #1a2b3c;
+    background: rgba(26, 43, 60, 0.02);
 }
 
 .forgot-password-link {
@@ -333,6 +355,138 @@ body {
     width: 27px;
     height: auto;
 }
+
+
+
+
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+/*------------------------DEEPSEEK 1-----------------------------------*/
+
+/*!* Обновленные цвета (заменяем синий градиент на фиолетово-розовый) *!*/
+/*body {*/
+/*    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+/*}*/
+
+/*!* Карточка - легкий стеклянный эффект *!*/
+/*.card {*/
+/*    background-color: rgba(255, 255, 255, 0.95);*/
+/*    backdrop-filter: blur(8px);*/
+/*    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);*/
+/*}*/
+
+/*!* Кнопки - градиент фиолетовый *!*/
+/*.primary-btn {*/
+/*    background: linear-gradient(90deg, #9f7aea 0%, #667eea 100%);*/
+/*    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);*/
+/*}*/
+
+/*!* Вторичная кнопка - более мягкий контур *!*/
+/*.secondary-btn {*/
+/*    border: 1px solid rgba(159, 122, 234, 0.5);*/
+/*    color: #6b46c1;*/
+/*}*/
+
+/*.secondary-btn:hover {*/
+/*    background-color: rgba(159, 122, 234, 0.05);*/
+/*}*/
+
+/*!* Поля ввода - легкая подсветка *!*/
+/*.input {*/
+/*    background-color: #f8f9fa;*/
+/*    border: 1px solid rgba(159, 122, 234, 0.2);*/
+/*}*/
+
+/*.input:hover {*/
+/*    background-color: #edf2f7;*/
+/*    border-color: rgba(159, 122, 234, 0.4);*/
+/*}*/
+
+/*.input:focus {*/
+/*    border: 1px solid #9f7aea;*/
+/*    box-shadow: 0 0 0 2px rgba(159, 122, 234, 0.2);*/
+/*}*/
+
+/*!* Ошибки - пурпурные вместо красных *!*/
+/*.field__errors {*/
+/*    color: #d53f8c;*/
+/*}*/
+
+/*.input-error {*/
+/*    box-shadow: 0 0 0 1px rgba(213, 63, 140, 0.7);*/
+/*}*/
+
+/*!* Ссылки - фиолетовые *!*/
+/*.forgot-password-link {*/
+/*    color: #805ad5;*/
+/*}*/
+
+/*.forgot-password-link:hover {*/
+/*    color: #6b46c1;*/
+/*}*/
+
+/*!* Чекбокс - фиолетовый акцент *!*/
+/*.checkbox-label {*/
+/*    color: #4a5568;*/
+/*}*/
+
+/*.checkbox-box:checked {*/
+/*    accent-color: #9f7aea;*/
+/*}*/
+
+/*!* Анимации - сохраняем но добавляем плавности *!*/
+/*.fade-in {*/
+/*    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.3s ease-out;*/
+/*}*/
+
+/*!* Логотип - добавляем контраста *!*/
+/*.logo {*/
+/*    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));*/
+/*}*/
+
+
+
+
+/* Ссылки: подчеркивание при hover */
+.forgot-password-link {
+    color: #1a2b3c;
+    text-decoration: none;
+    position: relative;
+}
+
+.forgot-password-link:hover:after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #1a2b3c;
+}
+
+/* Чекбокс: анимация "переливания" */
+.checkbox-box {
+    transition: all 0.3s ease;
+}
+
+.checkbox-box:checked {
+    accent-color: #1a2b3c;
+    transform: scale(1.05);
+}
+
+
 
 
 @media(max-height: 590px) {
