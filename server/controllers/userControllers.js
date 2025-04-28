@@ -26,6 +26,7 @@ export async function getCurrentUser(req, res) {
                 status: userData.status,
                 last_seen_at: userData.last_seen_at,
                 full_name: userData.full_name,
+                about: userData.about,
             }
         });
     }

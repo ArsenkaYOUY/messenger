@@ -27,7 +27,6 @@ export function setupFormHandlers() {
 
                     if (data.success) {
                         localStorage.setItem('accessToken', data.accessToken);
-                        localStorage.setItem('userData', JSON.stringify(data.user));
                         window.location.replace('chat.html');
                     } else {
                         fieldErrorsElement.textContent = data.error || 'Ошибка';

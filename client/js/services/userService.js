@@ -1,5 +1,7 @@
 import { checkTokenRequest } from "../api/userApi.js";
 import { refreshTokenRequest } from "../api/userApi.js";
+import { getProfileInfo } from "../api/userApi.js";
+import { updateProfileField } from "../api/userApi.js";
 
 export async function manipulateUserToken(accessToken) {
     try {
@@ -29,5 +31,31 @@ export async function manipulateUserToken(accessToken) {
         console.log('userService: manipulateUserToken error: ', error);
         return { ok: false };
 
+    }
+}
+
+export async function loadUserProfile() {
+    try {
+        const response = await getProfileInfo();
+        const profileData = await response.json();
+        return profileData;
+    }
+    catch (e) {
+        console.log('Ошибка загрузки профиля', e)
+    }
+}
+
+export async function saveProfileData(field, value) {
+    try {
+        const response = await updateProfileField(field, value);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Ошибка сохранения');
+        }
+
+        return await response.json();
+    } catch (error) {
+        throw error; // Передаём ошибку в вызывающий код
     }
 }

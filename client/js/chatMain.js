@@ -1,13 +1,13 @@
 'use strict'
 
 import { checkAuthSession } from "./services/checkAuthSession.js";
-import { setupIconActiveStateSwitch, loadContent} from "./ui/chatUi.js";
+import { setupIconActiveSectionSwitch, loadSectionContent, setupEditProfileInfo} from "./ui/chatUi.js";
 import { setupAllEmptyStates} from "./ui/emptyStatesSetup.js";
 
 document.addEventListener('DOMContentLoaded', async() => {
     await checkAuthSession();
-    setupIconActiveStateSwitch();
-    loadContent('chats')
+    setupIconActiveSectionSwitch();
+    loadSectionContent('profile')
     setupAllEmptyStates()
-
+    setupEditProfileInfo()
 })

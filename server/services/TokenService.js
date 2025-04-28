@@ -14,9 +14,7 @@ export class TokenService {
 
     generateAccessToken(user) {
         return jwt.sign({
-            id : user.id,
-            email : user.email,
-            username: user.username
+            id : user.id
         }, this.accessSecret,
             { expiresIn: this.accessExpiresIn });
     }

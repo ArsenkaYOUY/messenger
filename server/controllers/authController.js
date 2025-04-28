@@ -23,7 +23,7 @@ export async function loginUser(req, res) {
         const { accessToken, refreshToken } = await tokens.generateTokens(user)
 
         res.cookie('refreshToken', refreshToken, {
-            httpOnly: false,
+            httpOnly: true,
             secure: false,
             sameSite: 'Lax',
             path: '/',
@@ -52,7 +52,7 @@ export async function registerUser(req, res) {
             const { accessToken, refreshToken } = await tokens.generateTokens(newUser)
 
             res.cookie('refreshToken', refreshToken, {
-                httpOnly: false,
+                httpOnly: true,
                 secure: false,
                 sameSite: 'Lax',
                 path: '/',
