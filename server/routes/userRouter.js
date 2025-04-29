@@ -3,6 +3,7 @@ import { authenticateUserToken } from '../middlewares/authServices.js';
 import {getCurrentUser, updateAvatarController} from '../controllers/userControllers.js';
 import { updateFieldController } from '../controllers/userControllers.js';
 import { uploadAvatar } from '../config/multerUpload.js';
+import { searchUser } from '../controllers/userControllers.js';
 
 const router = express.Router();
 
@@ -18,13 +19,8 @@ router.get('/validate-token', authenticateUserToken, (req, res) => {
 
 router.post('/updateProfile/avatar', authenticateUserToken, uploadAvatar, updateAvatarController)
 
-router.put('/updateProfile/username', authenticateUserToken, updateFieldController)
+router.put('/updateProfile/:field', authenticateUserToken, updateFieldController)
 
-router.put('/updateProfile/fullname', authenticateUserToken, updateFieldController)
-
-router.put('/updateProfile/email', authenticateUserToken, updateFieldController)
-
-
-router.put('/updateProfile/about', authenticateUserToken, updateFieldController)
+router.get('/search', searchUser)
 
 export default router;

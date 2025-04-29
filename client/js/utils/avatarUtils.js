@@ -30,9 +30,46 @@ function getColorFromName(str) {
 
     return colors[Math.abs(hash) % colors.length];
 }
-export function generateDefaultAvatar(fullName) {
+function generateDefaultAvatar(fullName) {
     return {
         initials: getInitials(fullName),
         color: getColorFromName(fullName)
     };
+}
+
+function generateDefaultAvatarFallback(avatarElement, fullName) {
+    avatarElement.src = ''; // Очищаем src
+    avatarElement.classList.add('default-avatar');
+    const { initials, color } = generateDefaultAvatar(fullName);
+    avatarElement.dataset.initials = initials;
+    avatarElement.style.backgroundColor = color;
+}
+
+export function avatarManipulation(avatarUrl, avatarElement, fullName) {
+    if (avatarUrl) {
+        const fullAvatarUrl = "http://localhost:3000/" + avatarUrl;
+
+        checkImageExists(fullAvatarUrl, (exists) => {
+            if (exists) {
+                avatarElement.src = fullAvatarUrl;
+            } else {
+                // Если изображение не существует, генерируем аватар с инициалами
+                generateDefaultAvatarFallback(avatarElement, fullName);
+            }
+        });
+    } else {
+        // Если URL аватара не указан, генерируем аватар с инициалами
+        generateDefaultAvatarFallback(avatarElement, fullName);
+    }
+
+    function checkImageExists(url, callback) {
+        const img = new Image();
+        img.onload = function() {
+            callback(true);
+        };
+        img.onerror = function() {
+            callback(false);
+        };
+        img.src = url;
+    }
 }

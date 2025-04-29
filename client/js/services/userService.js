@@ -2,6 +2,26 @@ import { checkTokenRequest } from "../api/userApi.js";
 import { refreshTokenRequest } from "../api/userApi.js";
 import { getProfileInfo } from "../api/userApi.js";
 import { updateProfileField } from "../api/userApi.js";
+import {searchUser} from "../api/userApi.js"
+
+
+export async function searchUserService(username) {
+    try {
+        const response = await searchUser(username);
+        console.log('response:',response)
+        const result = await response.json();
+        console.log('result:',response);
+        if (result.success) {
+            return { success: true, userData : result.userData }
+        }
+        else {
+            return { success: false, errorMessage: result.error }
+        }
+    }
+    catch (error) {
+        throw error;
+    }
+}
 
 export async function manipulateUserToken(accessToken) {
     try {

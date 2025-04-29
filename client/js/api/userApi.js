@@ -1,5 +1,13 @@
 'use strict'
 
+export async function searchUser(username) {
+    const result = await fetch(
+        `http://localhost:3000/api/user/search?username=${encodeURIComponent(username)}`
+    );
+
+    return result;
+}
+
 export async function checkTokenRequest(token) {
     const result = await fetch('http://localhost:3000/api/user/validate-token', {
         method: 'GET',

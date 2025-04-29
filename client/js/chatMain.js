@@ -3,11 +3,12 @@
 import { checkAuthSession } from "./services/checkAuthSession.js";
 import { setupIconActiveSectionSwitch, loadSectionContent, setupEditProfileInfo} from "./ui/chatUi.js";
 import { setupAllEmptyStates} from "./ui/emptyStatesSetup.js";
+import { searchUserHandler } from "./handlers/chatsSearchUserHandler.js"
 
 document.addEventListener('DOMContentLoaded', async() => {
     await checkAuthSession();
     setupIconActiveSectionSwitch();
-    loadSectionContent('profile')
+    loadSectionContent('chats')
     setupAllEmptyStates()
-    setupEditProfileInfo()
+    searchUserHandler()
 })

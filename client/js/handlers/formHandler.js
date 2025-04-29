@@ -13,6 +13,8 @@ export function setupFormHandlers() {
         formEl.addEventListener('submit', async (event) => {
             event.preventDefault();
 
+            const loadingElement = formEl.querySelector('.form-loading');
+            loadingElement.classList.remove('hide');
             const fieldErrorsElement = formEl.querySelector('[data-js-form-field-error]');
 
             if (validator.isValid) {
@@ -37,6 +39,8 @@ export function setupFormHandlers() {
                     fieldErrorsElement.textContent = 'Ошибка при отправке запроса';
                 }
             }
+
+            loadingElement.classList.add('hide');
         });
     });
 }

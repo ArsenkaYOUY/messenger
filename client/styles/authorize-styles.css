@@ -33,22 +33,19 @@ body {
     min-height: 0.9em;
 }
 
-/*.input-error {*/
-/*    border-radius: 20px;*/
-/*    !*box-shadow: 0 0 4px 2px rgba(255,0,0,0.8);*!*/
+/* Стили для индикатора загрузки */
+.form-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
 
-/*    border-color: #c13e4b;*/
-/*    box-shadow: 0 0 0 1px rgba(255, 0, 0, 0.7);*/
-/*    animation: gentle-shake 0.4s ease;*/
-/*}*/
-
-/*@keyframes gentle-shake {*/
-/*    0%, 100% { transform: translateX(0); }*/
-/*    20% { transform: translateX(-2px); }*/
-/*    40% { transform: translateX(2px); }*/
-/*    60% { transform: translateX(-1px); }*/
-/*    80% { transform: translateX(1px); }*/
-/*}*/
+/* Отключаем кнопку при загрузке */
+button[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
 
 
 .logo {
@@ -290,6 +287,7 @@ body {
     /*background: linear-gradient(90deg, rgba(38, 88, 204, 0.90) 0%, #4093FF 100%);*/
     background: #1a2b3c;
     color: white;
+    margin-top: 20px;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -355,109 +353,6 @@ body {
     width: 27px;
     height: auto;
 }
-
-
-
-
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-/*------------------------DEEPSEEK 1-----------------------------------*/
-
-/*!* Обновленные цвета (заменяем синий градиент на фиолетово-розовый) *!*/
-/*body {*/
-/*    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
-/*}*/
-
-/*!* Карточка - легкий стеклянный эффект *!*/
-/*.card {*/
-/*    background-color: rgba(255, 255, 255, 0.95);*/
-/*    backdrop-filter: blur(8px);*/
-/*    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);*/
-/*}*/
-
-/*!* Кнопки - градиент фиолетовый *!*/
-/*.primary-btn {*/
-/*    background: linear-gradient(90deg, #9f7aea 0%, #667eea 100%);*/
-/*    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);*/
-/*}*/
-
-/*!* Вторичная кнопка - более мягкий контур *!*/
-/*.secondary-btn {*/
-/*    border: 1px solid rgba(159, 122, 234, 0.5);*/
-/*    color: #6b46c1;*/
-/*}*/
-
-/*.secondary-btn:hover {*/
-/*    background-color: rgba(159, 122, 234, 0.05);*/
-/*}*/
-
-/*!* Поля ввода - легкая подсветка *!*/
-/*.input {*/
-/*    background-color: #f8f9fa;*/
-/*    border: 1px solid rgba(159, 122, 234, 0.2);*/
-/*}*/
-
-/*.input:hover {*/
-/*    background-color: #edf2f7;*/
-/*    border-color: rgba(159, 122, 234, 0.4);*/
-/*}*/
-
-/*.input:focus {*/
-/*    border: 1px solid #9f7aea;*/
-/*    box-shadow: 0 0 0 2px rgba(159, 122, 234, 0.2);*/
-/*}*/
-
-/*!* Ошибки - пурпурные вместо красных *!*/
-/*.field__errors {*/
-/*    color: #d53f8c;*/
-/*}*/
-
-/*.input-error {*/
-/*    box-shadow: 0 0 0 1px rgba(213, 63, 140, 0.7);*/
-/*}*/
-
-/*!* Ссылки - фиолетовые *!*/
-/*.forgot-password-link {*/
-/*    color: #805ad5;*/
-/*}*/
-
-/*.forgot-password-link:hover {*/
-/*    color: #6b46c1;*/
-/*}*/
-
-/*!* Чекбокс - фиолетовый акцент *!*/
-/*.checkbox-label {*/
-/*    color: #4a5568;*/
-/*}*/
-
-/*.checkbox-box:checked {*/
-/*    accent-color: #9f7aea;*/
-/*}*/
-
-/*!* Анимации - сохраняем но добавляем плавности *!*/
-/*.fade-in {*/
-/*    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.3s ease-out;*/
-/*}*/
-
-/*!* Логотип - добавляем контраста *!*/
-/*.logo {*/
-/*    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));*/
-/*}*/
-
-
-
 
 /* Ссылки: подчеркивание при hover */
 .forgot-password-link {

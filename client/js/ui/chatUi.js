@@ -2,7 +2,7 @@
 
 import { loadUserProfile} from "../services/userService.js";
 import { saveProfileData } from "../services/userService.js";
-import { generateDefaultAvatar } from "../utils/avatarUtils.js"
+import { avatarManipulation } from "../utils/avatarUtils.js"
 
 export function setupIconActiveSectionSwitch() {
     const sideMenuLinks = document.querySelectorAll('.side-menu-link')
@@ -31,13 +31,16 @@ export async function loadSectionContent(targetElement) {
         if (targetElement === 'profile') {
             const profileData = await loadUserProfile();
             renderProfileData(profileData.user);
+            setupEditProfileInfo();
         }
     }
 }
 
 function renderProfileData(profileData) {
-
     console.log(profileData);
+    document.querySelector('.profile-skeleton').classList.remove('hide');
+    document.querySelector('.profile-content').classList.add('hide');
+
     document.querySelector('[data-field="username"] .info-value').textContent = profileData.username;
     document.querySelector('[data-field="email"] .info-value').textContent = profileData.email;
     document.querySelector('[data-field="fullname"] .info-value').textContent = profileData.full_name;
@@ -49,15 +52,7 @@ function renderProfileData(profileData) {
     avatarElement.className = '';
     // avatarElement.alt = 'Аватар пользователя';
 
-    if (profileData.avatar_url) {
-        avatarElement.src = "http://localhost:3000/" + profileData.avatar_url;
-    } else {
-        avatarElement.src = ''; // Очищаем src
-        avatarElement.classList.add('default-avatar');
-        const { initials, color } = generateDefaultAvatar(profileData.full_name);
-        avatarElement.dataset.initials = initials;
-        avatarElement.style.backgroundColor = color;
-    }
+    avatarManipulation(profileData.avatar_url, avatarElement, profileData.full_name);
 
     const profileStatusElement = document.querySelector('.profile-status');
 
@@ -72,6 +67,9 @@ function renderProfileData(profileData) {
         profileStatusElement.classList.add('online');
 
     }
+
+    document.querySelector('.profile-skeleton').classList.add('hide');
+    document.querySelector('.profile-content').classList.remove('hide');
 }
 
 
@@ -270,11 +268,7 @@ export function setupEditProfileInfo() {
 
             if (field === 'fullname') {
                 document.getElementById('profile-fullname').textContent = formattedValue;
-                if (avatarImage.classList.contains('default-avatar')) {
-                    const { initials, color } = generateDefaultAvatar(formattedValue);
-                    avatarImage.dataset.initials = initials;
-                    avatarImage.style.backgroundColor = color;
-                }
+                avatarManipulation('',avatarImage,formattedValue);
             }
             valueElement.textContent = formattedValue;
             cancelEdit(valueElement, inputElement, editButton);

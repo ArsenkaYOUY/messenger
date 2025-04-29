@@ -39,9 +39,9 @@
 
 
         <section id="chats" class="content-section chats-section hide">
-            <div class="chat-container">
+            <div class="chats-container">
                 <div class="search-container">
-                    <input placeholder="Поиск" class="search-input">
+                    <input id="chats-search-user" placeholder="Поиск" class="search-input">
                 </div>
 
                 <div class="empty-state">
@@ -51,23 +51,26 @@
                 </div>
 
                 <!--            ?? -->
-<!--                <div class="chat-item">-->
-<!--                    <div class="chat-avatar">-->
-<!--                        <div class="chat-avatar-box"></div>-->
-<!--                           <img src="images/user.png" alt="Аватар">&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    <div class="chat-content">-->
-<!--                        <div class="chat-header">-->
-<!--                            <span class="chat-name">Ваня</span>-->
-<!--                            <span class="chat-time">14:11</span>-->
-<!--                        </div>-->
-<!--                        <div class="chat-preview">-->
-<!--                            <span class="chat-text">Привет!ПриветПриветПриветПриветПриветПриветПриветПриветПриветПривет</span>-->
-<!--                            &lt;!&ndash; Иконка прочитано/не прочитано &ndash;&gt;-->
-<!--                            <span class="chat-status"></span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+
+                <div id="chats-list" class="chats-list">
+                    <div class="chat-item hide">
+                        <div class="chat-avatar">
+                            <div class="chat-avatar-box"></div>
+                            <img src="images/user.png" alt="Аватар">-->
+                        </div>
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <span class="chat-name">Ваня</span>
+                                <span class="chat-time">14:11</span>
+                            </div>
+                            <div class="chat-preview">
+                                <span class="chat-text">Привет!ПриветПриветПриветПриветПриветПриветПриветПриветПриветПривет</span>
+                                <!-- Иконка прочитано/не прочитано -->
+                                <span class="chat-status"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 
@@ -105,94 +108,124 @@
 
         <section id="profile" class="content-section profile-section hide">
             <div class="profile-container">
-                <div class="profile-header">
-                    <div class="profile-avatar">
-                        <img id="avatar-image">
+<!--                Скелет для показа при отсутствии данных с сервера-->
+                <div class="profile-skeleton">
+                    <div class="profile-skeleton-container">
+                        <div class="profile-header">
+                            <div class="skeleton skeleton-avatar"></div>
+                            <div class="skeleton skeleton-title"></div>
+                            <div class="skeleton skeleton-subtitle"></div>
+                        </div>
 
-                        <div class="avatar-upload-btn">
-                            <input type="file" class="hide" id="avatar-upload" accept="image/*" >
-                            <label for="avatar-upload">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M20 7H17L16 4H8L7 7H4C2.89543 7 2 7.89543 2 9V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V9C22 7.89543 21.1046 7 20 7Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </label>
+                        <div class="description-section">
+                            <div class="skeleton skeleton-input"></div>
+                        </div>
+
+                        <div class="information-section">
+                            <div class="skeleton-info-row">
+                                <div class="skeleton skeleton-row"></div>
+                            </div>
+                            <div class="skeleton-info-row">
+                                <div class="skeleton skeleton-row skeleton-row-medium"></div>
+                            </div>
+                            <div class="skeleton-info-row">
+                                <div class="skeleton skeleton-row skeleton-row-short"></div>
+                            </div>
                         </div>
                     </div>
-
-
-                    <h1 id="profile-fullname" class="profile-full-name"></h1>
-                    <p class="profile-status online">в сети</p>
                 </div>
 
-                <div class="description-section">
-                    <label for="desc-input" class="hint">Любые подробности, например: возраст, род занятий или город.</label>
-                    <input id="desc-input" class="description-input" autocomplete="off" type="text" maxlength="50" placeholder="О себе, макс. 50 символов">
-                </div>
+<!--             Основной контент -->
+                <div class="profile-content hide">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <img id="avatar-image">
 
-                <div class="information-section">
-
-                    <div class="info-row" data-field="fullname">
-                        <span class="info-label">Имя</span>
-                        <div class="info-action">
-                            <span class="info-value"></span>
-                            <input type="text" class="info-edit hide" value="">
-                            <button class="info-edit-btn" aria-label="Редактировать">
-                                <svg viewBox="0 0 24 24" width="16" height="16">
-                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                                </svg>
-                            </button>
+                            <div class="avatar-upload-btn">
+                                <input type="file" class="hide" id="avatar-upload" accept="image/*" >
+                                <label for="avatar-upload">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M20 7H17L16 4H8L7 7H4C2.89543 7 2 7.89543 2 9V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V9C22 7.89543 21.1046 7 20 7Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </label>
+                            </div>
                         </div>
+
+
+                        <h1 id="profile-fullname" class="profile-full-name"></h1>
+                        <p class="profile-status online">в сети</p>
                     </div>
 
-                    <div class="info-row" data-field="email">
-                        <span class="info-label">Адрес электронной почты</span>
-                        <div class="info-action">
-                            <span class="info-value"></span>
-                            <input type="email" class="info-edit hide">
-                            <button class="info-edit-btn" aria-label="Редактировать">
-                                <svg viewBox="0 0 24 24" width="16" height="16">
-                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                                </svg>
-                            </button>
-                        </div>
+                    <div class="description-section">
+                        <label for="desc-input" class="hint">Любые подробности, например: возраст, род занятий или город.</label>
+                        <input id="desc-input" class="description-input" autocomplete="off" type="text" maxlength="50" placeholder="О себе, макс. 50 символов">
                     </div>
 
-                    <div class="info-row" data-field="username">
-                        <span class="info-label">Имя пользователя</span>
-                        <div class="info-action">
-                            <span class="info-value"></span>
-                            <input type="text" class="info-edit hide">
-                            <button class="info-edit-btn" aria-label="Редактировать">
-                                <svg viewBox="0 0 24 24" width="16" height="16">
-                                    <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                                </svg>
-                            </button>
+                    <div class="information-section">
+
+                        <div class="info-row" data-field="fullname">
+                            <span class="info-label">Имя</span>
+                            <div class="info-action">
+                                <span class="info-value"></span>
+                                <input type="text" maxlength="30" class="info-edit hide" value="">
+                                <button class="info-edit-btn" aria-label="Редактировать">
+                                    <svg viewBox="0 0 24 24" width="16" height="16">
+                                        <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="info-row" data-field="email">
+                            <span class="info-label">Адрес электронной почты</span>
+                            <div class="info-action">
+                                <span class="info-value"></span>
+                                <input type="email" class="info-edit hide">
+                                <button class="info-edit-btn" aria-label="Редактировать">
+                                    <svg viewBox="0 0 24 24" width="16" height="16">
+                                        <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="info-row" data-field="username">
+                            <span class="info-label">Имя пользователя</span>
+                            <div class="info-action">
+                                <span class="info-value"></span>
+                                <input type="text" class="info-edit hide">
+                                <button class="info-edit-btn" aria-label="Редактировать">
+                                    <svg viewBox="0 0 24 24" width="16" height="16">
+                                        <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
 
 
-<!--                    <p class="hint">С помощью имени пользователя люди смогут связаться с Вами в Wire</p>-->
+    <!--                    <p class="hint">С помощью имени пользователя люди смогут связаться с Вами в Wire</p>-->
 
-                    <div class="profile-errors hide"></div>
-                    <div class="profile-success hide"></div>
-                    <div class="profile-loading hide">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="80" height="80">
-                            <!-- Уменьшаем радиус кружков с 15 до 8 -->
-                            <circle fill="#3BAEFF" r="8" cx="40" cy="65">
-                                <!-- Анимации остаются без изменений -->
-                                <animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;"
-                                         keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"/>
-                            </circle>
-                            <circle fill="#3BAEFF" r="8" cx="100" cy="65">
-                                <animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;"
-                                         keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"/>
-                            </circle>
-                            <circle fill="#3BAEFF" r="8" cx="160" cy="65">
-                                <animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;"
-                                         keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"/>
-                            </circle>
-                        </svg>
+                        <div class="profile-errors hide"></div>
+                        <div class="profile-success hide"></div>
+                        <div class="profile-loading hide">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="80" height="80">
+                                <!-- Уменьшаем радиус кружков с 15 до 8 -->
+                                <circle fill="#3BAEFF" r="8" cx="40" cy="65">
+                                    <!-- Анимации остаются без изменений -->
+                                    <animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;"
+                                             keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"/>
+                                </circle>
+                                <circle fill="#3BAEFF" r="8" cx="100" cy="65">
+                                    <animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;"
+                                             keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"/>
+                                </circle>
+                                <circle fill="#3BAEFF" r="8" cx="160" cy="65">
+                                    <animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;"
+                                             keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"/>
+                                </circle>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
