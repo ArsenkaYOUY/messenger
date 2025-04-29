@@ -54,7 +54,7 @@ export async function updateProfileField(field, value) {
         body = formData;
     } else {
         headers['Content-Type'] = 'application/json';
-        body = JSON.stringify({ value });
+        body = JSON.stringify({ field, value });
     }
 
     const response = await fetch(url, {

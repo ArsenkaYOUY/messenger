@@ -38,7 +38,7 @@ export async function loadSectionContent(targetElement) {
 function renderProfileData(profileData) {
 
     console.log(profileData);
-    document.querySelector('[data-field="username"] .info-value').textContent = '@' + profileData.username;
+    document.querySelector('[data-field="username"] .info-value').textContent = profileData.username;
     document.querySelector('[data-field="email"] .info-value').textContent = profileData.email;
     document.querySelector('[data-field="fullname"] .info-value').textContent = profileData.full_name;
     document.getElementById('profile-fullname').textContent = profileData.full_name;
@@ -50,7 +50,7 @@ function renderProfileData(profileData) {
     // avatarElement.alt = 'Аватар пользователя';
 
     if (profileData.avatar_url) {
-        avatarElement.src = profileData.avatar_url;
+        avatarElement.src = "http://localhost:3000/" + profileData.avatar_url;
     } else {
         avatarElement.src = ''; // Очищаем src
         avatarElement.classList.add('default-avatar');
@@ -189,6 +189,7 @@ export function setupEditProfileInfo() {
 
     // Обработчик для аватарки
     avatarUpload.addEventListener('change', async (e) => {
+        console.log('start');
         if (!e.target.files?.[0] || isProcessing) return;
 
         const file = e.target.files[0];
@@ -238,7 +239,7 @@ export function setupEditProfileInfo() {
         const newValue = inputElement.value.trim();
         const oldValue = valueElement.textContent;
 
-        if (!newValue) {
+        if (!newValue || newValue === oldValue) {
             cancelEdit(valueElement, inputElement, editButton);
             currentlyEditing = null;
             return;
@@ -260,10 +261,11 @@ export function setupEditProfileInfo() {
         loadingContainer.classList.remove('hide');
 
         try {
-            const formattedValue = field === 'username' && !newValue.startsWith('@')
+            const formattedValue = field === 'username'
                 ? '@' + newValue
                 : newValue;
 
+            console.log(field, formattedValue);
             await saveProfileData(field, formattedValue);
 
             if (field === 'fullname') {

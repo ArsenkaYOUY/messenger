@@ -1,10 +1,10 @@
 import db from '../config/db_connect.js';
 
 // return result.rows[0];
-export async function createUser(username, email, password_hash) {
+export async function createUser(login, email, password_hash) {
     try {
         const result = await db.query(
-            'INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING *', [username, email, password_hash]
+            'INSERT INTO users (login, email, password_hash) VALUES ($1, $2, $3) RETURNING *', [login, email, password_hash]
         );
         return result.rows[0];
     }
@@ -14,11 +14,11 @@ export async function createUser(username, email, password_hash) {
 }
 
 // return result.rows[0];
-export async function authenticateUser(username) {
+export async function authenticateUser(login) {
     try {
-        username = username.toLowerCase();
+        login = login.toLowerCase();
         const result = await db.query(
-            'SELECT * FROM users WHERE username = $1', [username]
+            'SELECT * FROM users WHERE login = $1', [login]
         )
         return result.rows[0];
     }

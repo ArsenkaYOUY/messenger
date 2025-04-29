@@ -11,10 +11,10 @@ import {
 } from "../views/authView.js";
 
 export async function loginUser(req, res) {
-    const { username, password } = req.body;
+    const { login, password } = req.body;
 
     try {
-        const user = await authenticateUser(username);
+        const user = await authenticateUser(login);
         if (!user || !(await bcrypt.compare(password, user.password_hash))) {
             return res.status(401).json(loginErrorResponse("Неверное имя пользователя или пароль"));
         }
@@ -39,13 +39,13 @@ export async function loginUser(req, res) {
 }
 
 export async function registerUser(req, res) {
-    const { reg_username, email, reg_password } = req.body;
+    const { reg_login, email, reg_password } = req.body;
 
     try {
         const hashedPassword = await bcrypt.hash(reg_password, 8);
-        const userName = reg_username.toLowerCase();
+        const login = reg_login.toLowerCase();
         const userEmail = email.toLowerCase();
-        const newUser = await createUser(userName, userEmail, hashedPassword);
+        const newUser = await createUser(login, userEmail, hashedPassword);
 
         if (newUser) {
             const tokens = new TokenService();
@@ -62,10 +62,11 @@ export async function registerUser(req, res) {
             return res.status(201).json(registerSuccessResponse(newUser, accessToken));
         }
     } catch (error) {
+        console.log(JSON.stringify(error));
         let message = "Ошибка регистрации";
 
         if (error.code === "23505") {
-            if (error.constraint === "users_username_key") {
+            if (error.constraint === "users_login_key") {
                 message = "Пользователь с таким логином уже зарегистрирован";
             } else if (error.constraint === "users_email_key") {
                 message = "Пользователь с таким адресом электронной почты уже зарегистрирован";

@@ -1,11 +1,17 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 dotenv.config();
 import cookieParser from 'cookie-parser';
+import { fileURLToPath } from 'url';  // Для работы с import.meta.url
 
 import authRouter from './routes/authRouter.js';
 import userRouter from './routes/userRouter.js';
+
+// Получаем текущий путь к файлу
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename); // Путь к директории текущего файла
 
 const app = express();
 
@@ -22,6 +28,8 @@ app.use(cors( {
 
 // Подключение маршрутизатора аунтификации, авторизации и тп
 app.use('/api/auth', authRouter );
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Подключение маршрутизатора функций всего что связано с конечным пользователем
 app.use('/api/user', userRouter)
