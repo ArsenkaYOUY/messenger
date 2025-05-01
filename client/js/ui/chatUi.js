@@ -47,7 +47,7 @@ function renderProfileData(profileData) {
     document.getElementById('profile-fullname').textContent = profileData.full_name;
     document.getElementById('desc-input').value = profileData.about;
 
-    const avatarElement = document.getElementById('avatar-image');
+    const avatarElement = document.getElementById('profile-avatar-image');
     // Удаляем предыдущие классы, если они есть
     avatarElement.className = '';
     // avatarElement.alt = 'Аватар пользователя';
@@ -81,7 +81,7 @@ export function setupEditProfileInfo() {
     const loadingContainer = document.querySelector('.profile-loading');
 
     const avatarUpload = document.getElementById('avatar-upload');
-    const avatarImage = document.getElementById('avatar-image');
+    const avatarImage = document.getElementById('profile-avatar-image');
 
     const descInput = document.getElementById('desc-input');
 

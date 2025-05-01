@@ -10,8 +10,7 @@ export function renderChatItem(userData) {
 
     chatItem.innerHTML = `
         <div class="chat-avatar">
-            <div class="chat-avatar-box"></div>
-            <img src="${userData.avatar_url || 'images/user.png'}" alt="Аватар">
+            <img id="chat-avatar-image" class="avatar-image">
         </div>
         <div class="chat-content">
             <div class="chat-header">
@@ -26,6 +25,9 @@ export function renderChatItem(userData) {
             </div>
         </div>
     `;
+
+    const imgElement = chatItem.querySelector('.chat-avatar img');
+    avatarManipulation(userData.avatar_url,imgElement,userData.fullname);
 
     container.appendChild(chatItem);
 }
