@@ -1,6 +1,6 @@
 'use strict'
 
-import { loadUserProfile} from "../services/userService.js";
+import { loadUserProfile } from "../services/userService.js";
 import { saveProfileData } from "../services/userService.js";
 import { avatarManipulation } from "../utils/avatarUtils.js"
 
@@ -47,31 +47,23 @@ function renderProfileData(profileData) {
     document.getElementById('profile-fullname').textContent = profileData.full_name;
     document.getElementById('desc-input').value = profileData.about;
 
-    const avatarElement = document.getElementById('profile-avatar-image');
-    // Удаляем предыдущие классы, если они есть
-    avatarElement.className = '';
-    // avatarElement.alt = 'Аватар пользователя';
-
-    avatarManipulation(profileData.avatar_url, avatarElement, profileData.full_name);
+    const avatarContainer = document.getElementById('profile-avatar-container');
+    avatarManipulation(profileData.avatar_url, avatarContainer, profileData.full_name);
 
     const profileStatusElement = document.querySelector('.profile-status');
 
     profileStatusElement.textContent = profileData.status === "online" ? 'в сети' : 'не в сети';
-    if (profileStatusElement.textContent  === 'не в сети') {
+    if (profileStatusElement.textContent === 'не в сети') {
         profileStatusElement.classList.remove('online');
         profileStatusElement.classList.add('offline');
-
-    }
-    else {
+    } else {
         profileStatusElement.classList.remove('offline');
         profileStatusElement.classList.add('online');
-
     }
 
     document.querySelector('.profile-skeleton').classList.add('hide');
     document.querySelector('.profile-content').classList.remove('hide');
 }
-
 
 export function setupEditProfileInfo() {
     const editableRows = document.querySelectorAll('.info-row');
@@ -81,14 +73,13 @@ export function setupEditProfileInfo() {
     const loadingContainer = document.querySelector('.profile-loading');
 
     const avatarUpload = document.getElementById('avatar-upload');
-    const avatarImage = document.getElementById('profile-avatar-image');
+    const avatarContainer = document.getElementById('profile-avatar-container');
 
     const descInput = document.getElementById('desc-input');
 
     let currentlyEditing = null;
-    let isProcessing = false; // Флаг для отслеживания состояния запроса
+    let isProcessing = false;
 
-    // Регулярные выражения для валидации
     const validations = {
         email: {
             regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -106,7 +97,6 @@ export function setupEditProfileInfo() {
         if (e.key === 'Enter') await handleDescriptionSave();
     });
 
-    // Обработчик для текстовых полей
     editableRows.forEach((row) => {
         const editButton = row.querySelector('.info-edit-btn');
         const valueElement = row.querySelector('.info-value');
@@ -148,7 +138,6 @@ export function setupEditProfileInfo() {
 
         const newValue = descInput.value.trim();
 
-        // Если значение не изменилось, ничего не делаем
         if (newValue === descInput.dataset.lastValue) return;
 
         isProcessing = true;
@@ -158,8 +147,6 @@ export function setupEditProfileInfo() {
 
         try {
             await saveProfileData('about', newValue);
-
-            // Сохраняем текущее значение для сравнения при следующем изменении
             descInput.dataset.lastValue = newValue;
             showSuccess('Описание успешно сохранено');
         } catch (error) {
@@ -171,7 +158,6 @@ export function setupEditProfileInfo() {
         }
     }
 
-    // Функция для отмены текущего редактирования
     function cancelCurrentlyEditing() {
         if (!currentlyEditing || isProcessing) return;
 
@@ -185,17 +171,21 @@ export function setupEditProfileInfo() {
         currentlyEditing = null;
     }
 
-    // Обработчик для аватарки
     avatarUpload.addEventListener('change', async (e) => {
-        console.log('start');
         if (!e.target.files?.[0] || isProcessing) return;
 
         const file = e.target.files[0];
-        const oldSrc = avatarImage.src;
+        const oldAvatar = avatarContainer.innerHTML;
 
         try {
             isProcessing = true;
-            avatarImage.src = URL.createObjectURL(file);
+            // const tempUrl = URL.createObjectURL(file);
+            // avatarContainer.innerHTML = `<div class="avatar-image" style="background-image: url(${tempUrl})"></div>`;
+
+            const avatarContainer = document.getElementById('profile-avatar-container');
+            const fullnameElement = document.getElementById('profile-fullname');
+            avatarManipulation(file, avatarContainer, fullnameElement.textContent);
+
             hideMessages();
             loadingContainer.classList.remove('hide');
 
@@ -204,7 +194,7 @@ export function setupEditProfileInfo() {
 
             avatarUpload.value = '';
         } catch (error) {
-            avatarImage.src = oldSrc;
+            avatarContainer.innerHTML = oldAvatar;
             showError('Ошибка отправки данных. Повторите позже');
         } finally {
             isProcessing = false;
@@ -243,7 +233,6 @@ export function setupEditProfileInfo() {
             return;
         }
 
-        // Валидация перед отправкой
         if (validations[field]) {
             const validation = validations[field];
             if (!validation.regex.test(newValue)) {
@@ -263,12 +252,11 @@ export function setupEditProfileInfo() {
                 ? '@' + newValue
                 : newValue;
 
-            console.log(field, formattedValue);
             await saveProfileData(field, formattedValue);
 
             if (field === 'fullname') {
                 document.getElementById('profile-fullname').textContent = formattedValue;
-                avatarManipulation('',avatarImage,formattedValue);
+                avatarManipulation('', avatarContainer, formattedValue);
             }
             valueElement.textContent = formattedValue;
             cancelEdit(valueElement, inputElement, editButton);
