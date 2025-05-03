@@ -2,11 +2,12 @@ import {getUserChatsSuccessResponse} from "../views/chatView.js";
 import db from "../config/db_connect.js";
 import ChatView from "../views/chatView.js";
 import ChatModel from "../models/chatModel.js";
+import { getUserByID } from "../models/authModel.js";
 
 
 export async function getUserChats(req, res) {
-    // const userId = req.user.id
-    const userId = req.query.userId || req.user?.id;
+    const userId = req.user.id
+    // const userId = req.query.userId || req.user?.id;
     if (!userId) {
         return res.status(400).send();
     }
@@ -19,15 +20,6 @@ export async function getUserChats(req, res) {
                 error: 'Чаты не найдены'
             })
         }
-        // const userChats =
-        //     {
-        //         id: 1,
-        //         name: "Тестовый чат",
-        //         is_group: false,
-        //         lastMessage: "Привет! Это тест.",
-        //         unreadCount: 2
-        //     };
-
 
         res.status(200).json(getUserChatsSuccessResponse(true,userChats));
     }
@@ -42,7 +34,9 @@ export async function getUserChats(req, res) {
 
 export async function createUserChat(req, res) {
     console.log(JSON.stringify(req.body));
-    const { name, type, members } = req.body;
+    const {  type, members } = req.body;
+    let { name } = req.body;
+    let avatar = null;
     // const creatorId = req.user.id;
     const {creatorId } = req.body;
 
@@ -62,8 +56,6 @@ export async function createUserChat(req, res) {
         const isGroup = type === "group";
 
         const membersToAdd = [creatorId, ...members ];
-        console.log(isGroup);
-        console.log(members);
 
         if (!isGroup && members.length === 1) {
             const existingChatId = await ChatModel.findPrivateChat(
@@ -75,10 +67,13 @@ export async function createUserChat(req, res) {
                 await client.query('ROLLBACK');
                 return res.status(200).json(ChatView.chatExists(existingChatId));
             }
+            const result = await getUserByID(members[0]);
+             name = result.full_name;
+             avatar = result.avatar_url;
         }
 
         const chat = await ChatModel.create(
-            {isGroup, name: isGroup ? name : null},
+            {isGroup, name: name, avatar},
             client
         )
 

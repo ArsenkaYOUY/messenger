@@ -1,45 +1,55 @@
 'use strict'
 
 import { searchUserService } from "../services/userService.js";
-import { renderChatItem } from "../utils/renderChatItemUtils.js";
+import { renderFoundedUserItem } from "../utils/renderChatItemUtils.js";
+import { cleanFoundedUsers } from "../utils/renderChatItemUtils.js";
 
 export function searchUserHandler() {
     const searchElement = document.getElementById('chats-search-user');
-
-    // const chatsSkeletonElement = document.getElementById('chats-skeleton');
-    // const chatsNotFoundEmptyStateElement = document.getElementById('chats-not-found-empty-state');
-    //
+    const notFoundElement = document.getElementById('es-user-not-found');
+    let searchTimeout = null;
 
     if (searchElement) {
-        searchElement.addEventListener('input', async () => {
-            // chatsSkeletonElement.classList.remove('hide');
-            // chatsNotFoundEmptyStateElement.classList.add('hide');
-            let input = searchElement.value.trim();
+        searchElement.addEventListener('input', () => {
+            // Очищаем предыдущий таймаут
+            clearTimeout(searchTimeout);
 
-            // Добавляем @, если его нет в начале
-            if (!input.startsWith('@')) {
-                input = '@' + input;
-            }
+            // Устанавливаем новый таймаут
+            searchTimeout = setTimeout(async () => {
+                let input = searchElement.value.trim();
 
-            try {
-                const result = await searchUserService(input);
-                console.log('result:', result);
-                if (result.success) {
-                    console.log(result.userData)
-                    const userData = result.userData;
-                    renderChatItem(userData);
-                } else {
-                    console.log(result.errorMessage);
-                    // chatsNotFoundEmptyStateElement.classList.remove('hide');
+                if (input === '') {
+                    cleanFoundedUsers();
+                    return;
                 }
-            }
-            catch (error) {
-                console.log(error);
-            }
-            finally {
-                // chatsSkeletonElement.classList.add('hide');
-            }
 
+                // Добавляем @, если его нет в начале
+                if (!input.startsWith('@')) {
+                    input = '@' + input;
+                }
+
+                try {
+                    const result = await searchUserService(input);
+                    console.log('result:', result);
+                    document.getElementById('my-chats-list').classList.add('hide');
+
+                    if (result.success) {
+                        console.log(result.userData);
+                        notFoundElement.classList.add('hide');
+                        const userData = result.userData;
+                        renderFoundedUserItem(userData);
+                    } else {
+                        console.log(result.errorMessage);
+                        if (document.getElementById('founded-users-list').children.length === 0) {
+                            notFoundElement.classList.remove('hide');
+                        }
+                    }
+                }
+                catch (error) {
+                    console.log(error);
+                    notFoundElement.classList.remove('hide');
+                }
+            }, 300); // Задержка 300 мс
         });
     }
 }

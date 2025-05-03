@@ -21,6 +21,7 @@ export async function searchUser(req, res) {
         res.status(200).json({
             success: true,
             userData: {
+                id: userData.id,
                 username: userData.username,
                 avatar_url: userData.avatar_url,
                 status: userData.status,

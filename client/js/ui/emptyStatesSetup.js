@@ -14,5 +14,6 @@ function emptyStateLoad (elementId, path) {
 export function setupAllEmptyStates() {
     emptyStateLoad("lottie-no-messages", "./lottie-animations/no-messages.json")
     emptyStateLoad("lottie-no-chats", "./lottie-animations/no-results.json")
+    emptyStateLoad("lottie-user-not-found", "./lottie-animations/no-results.json")
 
 }

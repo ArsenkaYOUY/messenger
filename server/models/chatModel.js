@@ -1,12 +1,12 @@
 import db from "../config/db_connect.js";
 
 export default class ChatModel {
-    static async create( {isGroup, name}, client = db )  {
+    static async create( {isGroup, name, avatar = null}, client = db )  {
         const { rows } = await client.query(
-            `INSERT INTO chats (is_group, name, created_at)
-             VALUES ($1, $2, NOW())
+            `INSERT INTO chats (is_group, name, avatar)
+             VALUES ($1, $2, $3)
              RETURNING id, is_group, name`,
-            [isGroup, name]
+            [isGroup, name, avatar]
         )
         return rows[0];
     }
@@ -30,7 +30,6 @@ export default class ChatModel {
                 ORDER BY c.updated_at DESC;
         `;
             const result = await db.query(query, [userId]);
-            console.log(result.rows);
             if (result.rows && result.rows.length > 0) {
                 return result.rows;
             }
@@ -56,8 +55,6 @@ export default class ChatModel {
     }
 
     static async findPrivateChat(user1Id, user2Id, client = db){
-        console.log(user1Id)
-        console.log(user2Id)
         const { rows } = await client.query(
             `SELECT c.id FROM chats c
             JOIN chat_members cm1 ON c.id = cm1.chat_id
@@ -68,7 +65,6 @@ export default class ChatModel {
             LIMIT 1`,
             [user1Id, user2Id]
         );
-        console.log(rows)
         if (!rows || rows.length === 0)
             return null
 

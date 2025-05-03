@@ -41,10 +41,10 @@
         <section id="chats" class="content-section chats-section hide">
             <div class="chats-container">
                 <div class="search-container">
-                    <input id="chats-search-user" placeholder="Поиск" class="search-input">
+                    <input id="chats-search-user" autocomplete="off" placeholder="Поиск" class="search-input">
                 </div>
 
-                <div class="empty-state hide">
+                <div id="es-no-chats" class="empty-state hide">
                     <div id="lottie-no-chats" style="width: 200px; height: 200px;"></div>
                     <h3 class="empty-state-title">У вас пока нет чатов</h3>
                     <p class="empty-state-description">Начните общаться сейчас!</p>
@@ -53,23 +53,49 @@
                 <!--            ?? -->
 
                 <div id="chats-list" class="chats-list">
-                    <div class="chat-item hide">
-                        <div class="chat-avatar">
-                            <div class="chat-avatar-box"></div>
-                            <img src="images/user.png" alt="Аватар">-->
+
+                    <div id="search-results-container">
+                        <h3 class="visually-hidden">Найденные пользователи</h3>
+                        <div id="founded-users-list"></div>
+
+                        <div id="search-skeleton" class="search-skeleton hide">
+                            <div class="skeleton-avatar"></div>
+                            <div class="skeleton-content">
+                                <div class="skeleton-line" style="width: 70%"></div>
+                                <div class="skeleton-line" style="width: 50%"></div>
+                            </div>
                         </div>
-                        <div class="chat-content">
-                            <div class="chat-header">
-                                <span class="chat-name">Ваня</span>
-                                <span class="chat-time">14:11</span>
-                            </div>
-                            <div class="chat-preview">
-                                <span class="chat-text">Привет!ПриветПриветПриветПриветПриветПриветПриветПриветПриветПривет</span>
-                                <!-- Иконка прочитано/не прочитано -->
-                                <span class="chat-status"></span>
-                            </div>
+
+                        <div id="es-user-not-found" class="empty-state hide">
+                            <div id="lottie-user-not-found" style="width: 200px; height: 200px;"></div>
+                            <h3 class="empty-state-title">По вашему запросу ничего не найдено</h3>
+                            <p class="empty-state-description">:(</p>
                         </div>
                     </div>
+
+
+
+                    <div id="chats-container">
+                        <h3 class="visually-hidden">Мои чаты</h3>
+                        <div id="my-chats-list"></div>
+                    </div>
+<!--                    <div class="chat-item hide">-->
+<!--                        <div class="chat-avatar">-->
+<!--                            <div class="chat-avatar-box"></div>-->
+<!--                            <img src="images/user.png" alt="Аватар">&ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div class="chat-content">-->
+<!--                            <div class="chat-header">-->
+<!--                                <span class="chat-name">Ваня</span>-->
+<!--                                <span class="chat-time">14:11</span>-->
+<!--                            </div>-->
+<!--                            <div class="chat-preview">-->
+<!--                                <span class="chat-text">Привет!ПриветПриветПриветПриветПриветПриветПриветПриветПриветПривет</span>-->
+<!--                                &lt;!&ndash; Иконка прочитано/не прочитано &ndash;&gt;-->
+<!--                                <span class="chat-status"></span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
 
             </div>

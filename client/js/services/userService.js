@@ -8,9 +8,7 @@ import {searchUser} from "../api/userApi.js"
 export async function searchUserService(username) {
     try {
         const response = await searchUser(username);
-        console.log('response:',response)
         const result = await response.json();
-        console.log('result:',response);
         if (result.success) {
             return { success: true, userData : result.userData }
         }

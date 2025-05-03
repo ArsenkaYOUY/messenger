@@ -41,6 +41,7 @@ export async function loginUser(req, res) {
 export async function registerUser(req, res) {
     const { reg_login, email, reg_password } = req.body;
 
+    console.log(JSON.stringify(req.body));
     try {
         const hashedPassword = await bcrypt.hash(reg_password, 8);
         const login = reg_login.toLowerCase();
