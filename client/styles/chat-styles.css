@@ -337,7 +337,7 @@ body {
     position: relative;
 }
 
-.profile-skeleton::after {
+.profile-skeleton-wrapper::after {
     content: "";
     position: absolute;
     top: 0;

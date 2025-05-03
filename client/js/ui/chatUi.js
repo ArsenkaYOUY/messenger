@@ -38,7 +38,7 @@ export async function loadSectionContent(targetElement) {
 
 function renderProfileData(profileData) {
     console.log(profileData);
-    document.querySelector('.profile-skeleton').classList.remove('hide');
+    document.querySelector('.profile-skeleton-wrapper').classList.remove('hide');
     document.querySelector('.profile-content').classList.add('hide');
 
     document.querySelector('[data-field="username"] .info-value').textContent = profileData.username;
@@ -61,7 +61,7 @@ function renderProfileData(profileData) {
         profileStatusElement.classList.add('online');
     }
 
-    document.querySelector('.profile-skeleton').classList.add('hide');
+    document.querySelector('.profile-skeleton-wrapper').classList.add('hide');
     document.querySelector('.profile-content').classList.remove('hide');
 }
 
