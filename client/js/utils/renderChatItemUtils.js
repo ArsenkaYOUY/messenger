@@ -75,7 +75,13 @@ export function renderFoundedUserItem(userData) {
 
 export function cleanFoundedUsers() {
     renderedUserIds.clear();
+    const skeletonElement = document.getElementById('search-skeleton-container');
+    if (skeletonElement)
+        skeletonElement.classList.add('hide');
+
     document.getElementById('founded-users-list').innerHTML = '';
-    document.getElementById('es-user-not-found').classList.add('hide');
+    const notFoundElement = document.getElementById('es-user-not-found');
+    if (notFoundElement)
+        notFoundElement.classList.add('hide');
     document.getElementById('my-chats-list').classList.remove('hide');
 }

@@ -41,7 +41,7 @@
         <section id="chats" class="content-section chats-section hide">
             <div class="chats-container">
                 <div class="search-container">
-                    <input id="chats-search-user" autocomplete="off" placeholder="Поиск" class="search-input">
+                    <input id="chats-search-user" autocomplete="off" placeholder="Поиск" maxlength="15" class="search-input">
                 </div>
 
                 <div id="es-no-chats" class="empty-state hide">
@@ -54,53 +54,43 @@
 
                 <div id="chats-list" class="chats-list">
 
-                    <div id="search-results-container">
-                        <h3 class="visually-hidden">Найденные пользователи</h3>
-                        <div id="founded-users-list"></div>
-
-                        <div id="search-skeleton" class="search-skeleton hide">
-                            <div class="skeleton-avatar"></div>
-                            <div class="skeleton-content">
+                    <div id="search-skeleton-container" class="hide">
+                        <div class="search-skeleton">
+                            <div class="search-skeleton-avatar"></div>
+                            <div class="search-skeleton-content">
                                 <div class="skeleton-line" style="width: 70%"></div>
                                 <div class="skeleton-line" style="width: 50%"></div>
                             </div>
                         </div>
+                        <div class="search-skeleton">
+                            <div class="search-skeleton-avatar"></div>
+                            <div class="search-skeleton-content">
+                                <div class="skeleton-line" style="width: 65%"></div>
+                                <div class="skeleton-line" style="width: 45%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="search-results-container">
+                        <h3 class="visually-hidden">Найденные пользователи</h3>
+                        <div id="founded-users-list"></div>
 
                         <div id="es-user-not-found" class="empty-state hide">
                             <div id="lottie-user-not-found" style="width: 200px; height: 200px;"></div>
                             <h3 class="empty-state-title">По вашему запросу ничего не найдено</h3>
-                            <p class="empty-state-description">:(</p>
+                            <p class="empty-state-description"></p>
                         </div>
                     </div>
-
 
 
                     <div id="chats-container">
                         <h3 class="visually-hidden">Мои чаты</h3>
                         <div id="my-chats-list"></div>
                     </div>
-<!--                    <div class="chat-item hide">-->
-<!--                        <div class="chat-avatar">-->
-<!--                            <div class="chat-avatar-box"></div>-->
-<!--                            <img src="images/user.png" alt="Аватар">&ndash;&gt;-->
-<!--                        </div>-->
-<!--                        <div class="chat-content">-->
-<!--                            <div class="chat-header">-->
-<!--                                <span class="chat-name">Ваня</span>-->
-<!--                                <span class="chat-time">14:11</span>-->
-<!--                            </div>-->
-<!--                            <div class="chat-preview">-->
-<!--                                <span class="chat-text">Привет!ПриветПриветПриветПриветПриветПриветПриветПриветПриветПривет</span>-->
-<!--                                &lt;!&ndash; Иконка прочитано/не прочитано &ndash;&gt;-->
-<!--                                <span class="chat-status"></span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </div>
-
             </div>
 
-            <div class="dialog-container hide">
+            <div class="dialog-container">
                 <div class="dialog-header">
                     <div class="dialog-partner">
                         <div class="chat-avatar-box"></div>
@@ -138,24 +128,24 @@
                 <div class="profile-skeleton">
                     <div class="profile-skeleton-container">
                         <div class="profile-header">
-                            <div class="skeleton skeleton-avatar"></div>
-                            <div class="skeleton skeleton-title"></div>
-                            <div class="skeleton skeleton-subtitle"></div>
+                            <div class="profile-skeleton profile-skeleton-avatar"></div>
+                            <div class="profile-skeleton profile-skeleton-title"></div>
+                            <div class="profile-skeleton profile-skeleton-subtitle"></div>
                         </div>
 
                         <div class="description-section">
-                            <div class="skeleton skeleton-input"></div>
+                            <div class="profile-skeleton profile-skeleton-input"></div>
                         </div>
 
                         <div class="information-section">
-                            <div class="skeleton-info-row">
-                                <div class="skeleton skeleton-row"></div>
+                            <div class="profile-skeleton-info-row">
+                                <div class="profile-skeleton profile-skeleton-row"></div>
                             </div>
-                            <div class="skeleton-info-row">
-                                <div class="skeleton skeleton-row skeleton-row-medium"></div>
+                            <div class="profile-skeleton-info-row">
+                                <div class="profile-skeleton profile-skeleton-row profile-skeleton-row-medium"></div>
                             </div>
-                            <div class="skeleton-info-row">
-                                <div class="skeleton skeleton-row skeleton-row-short"></div>
+                            <div class="profile-skeleton-info-row">
+                                <div class="profile-skeleton profile-skeleton-row profile-skeleton-row-short"></div>
                             </div>
                         </div>
                     </div>

@@ -161,6 +161,51 @@ body {
     display: inline-block;
 }
 
+/* ------------ SKELETON CHATS ----------------*/
+
+/* Стили для скелетона */
+#search-skeleton-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-skeleton {
+    display: flex;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.search-skeleton-avatar {
+    width: 50px;
+    height: 50px;
+    margin-inline: 10px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: search-shimmer 2s ease-in-out infinite;
+}
+
+.search-skeleton-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.skeleton-line {
+    height: 12px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: search-shimmer 2s ease-in-out infinite;
+}
+
+@keyframes search-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+
 /* ----------------- DIALOG -------------------------*/
 
 .dialog-container {
@@ -276,14 +321,14 @@ body {
 
 /* -------------------- PROFILE SKELETON SECTION ------------------- */
 /* Skeleton Loader Styles */
-.skeleton {
+.profile-skeleton {
     position: relative;
     overflow: hidden;
     background-color: #e0e0e0;
     border-radius: 4px;
 }
 
-.skeleton-info-row {
+.profile-skeleton-info-row {
     display: flex;
     justify-content: space-between;
     padding: 12px 20px;
@@ -292,7 +337,7 @@ body {
     position: relative;
 }
 
-.skeleton::after {
+.profile-skeleton::after {
     content: "";
     position: absolute;
     top: 0;
@@ -314,42 +359,42 @@ body {
 }
 
 /* Skeleton specific elements */
-.skeleton-avatar {
+.profile-skeleton-avatar {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     margin: 0 auto 10px;
 }
 
-.skeleton-title {
+.profile-skeleton-title {
     width: 200px;
     height: 24px;
     margin: 0 auto 8px;
 }
 
-.skeleton-subtitle {
+.profile-skeleton-subtitle {
     width: 100px;
     height: 16px;
     margin: 0 auto 20px;
 }
 
-.skeleton-input {
+.profile-skeleton-input {
     width: 100%;
     height: 40px;
     margin-bottom: 20px;
 }
 
-.skeleton-row {
+.profile-skeleton-row {
     width: 100%;
     height: 20px;
     margin-bottom: 15px;
 }
 
-.skeleton-row-short {
+.profile-skeleton-row-short {
     width: 70%;
 }
 
-.skeleton-row-medium {
+.profile-skeleton-row-medium {
     width: 85%;
 }
 

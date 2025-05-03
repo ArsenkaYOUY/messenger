@@ -7,6 +7,8 @@ import { cleanFoundedUsers } from "../utils/renderChatItemUtils.js";
 export function searchUserHandler() {
     const searchElement = document.getElementById('chats-search-user');
     const notFoundElement = document.getElementById('es-user-not-found');
+    const skeletonElement = document.getElementById('search-skeleton-container');
+
     let searchTimeout = null;
 
     if (searchElement) {
@@ -16,6 +18,11 @@ export function searchUserHandler() {
 
             // Устанавливаем новый таймаут
             searchTimeout = setTimeout(async () => {
+                if (skeletonElement)
+                    skeletonElement.classList.remove('hide')
+
+                document.getElementById('my-chats-list').classList.add('hide');
+
                 let input = searchElement.value.trim();
 
                 if (input === '') {
@@ -31,15 +38,18 @@ export function searchUserHandler() {
                 try {
                     const result = await searchUserService(input);
                     console.log('result:', result);
-                    document.getElementById('my-chats-list').classList.add('hide');
 
                     if (result.success) {
                         console.log(result.userData);
                         notFoundElement.classList.add('hide');
                         const userData = result.userData;
                         renderFoundedUserItem(userData);
+                        if (skeletonElement)
+                            skeletonElement.classList.add('hide')
                     } else {
                         console.log(result.errorMessage);
+                        if (skeletonElement)
+                            skeletonElement.classList.add('hide')
                         if (document.getElementById('founded-users-list').children.length === 0) {
                             notFoundElement.classList.remove('hide');
                         }
