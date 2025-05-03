@@ -398,8 +398,8 @@ body {
 }
 
 .avatar-container {
-    width: 100%;
-    height: 100%;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     overflow: hidden;
 }
@@ -408,6 +408,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    background-size: cover;       /* Важно! Масштабирует изображение */
 }
 
 .avatar-initials {

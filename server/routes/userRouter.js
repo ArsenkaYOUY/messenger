@@ -1,9 +1,13 @@
 import express from 'express';
+import { uploadAvatar } from '../config/multerUpload.js';
 import { authenticateUserToken } from '../middlewares/authServices.js';
+
 import {getCurrentUser, updateAvatarController} from '../controllers/userControllers.js';
 import { updateFieldController } from '../controllers/userControllers.js';
-import { uploadAvatar } from '../config/multerUpload.js';
 import { searchUser } from '../controllers/userControllers.js';
+
+import {getUserChats} from "../controllers/chatControllers.js";
+import { createUserChat} from "../controllers/chatControllers.js";
 
 const router = express.Router();
 
@@ -22,5 +26,21 @@ router.post('/updateProfile/avatar', authenticateUserToken, uploadAvatar, update
 router.put('/updateProfile/:field', authenticateUserToken, updateFieldController)
 
 router.get('/search', searchUser)
+
+router.get("/chats", getUserChats)
+
+// router.get("/chats/:id" )
+//
+router.post("/chats", createUserChat)
+//
+// router.put("/chats/:id")
+//
+// router.delete("/chats/:id")
+//
+// router.get("/chats/:id/members")
+//
+// router.post("/chats/:id/members")
+//
+// router.delete("/chats/:id/members")
 
 export default router;

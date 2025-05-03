@@ -179,13 +179,14 @@ export function setupEditProfileInfo() {
 
         try {
             isProcessing = true;
-            // const tempUrl = URL.createObjectURL(file);
-            // avatarContainer.innerHTML = `<div class="avatar-image" style="background-image: url(${tempUrl})"></div>`;
-
-            const avatarContainer = document.getElementById('profile-avatar-container');
-            const fullnameElement = document.getElementById('profile-fullname');
-            avatarManipulation(file, avatarContainer, fullnameElement.textContent);
-
+            const tempUrl = URL.createObjectURL(file);
+            avatarContainer.innerHTML = `
+            <div class="avatar-image" 
+                 style="background-image: url(${tempUrl});
+                        width: 150px;
+                        height: 150px;">
+            </div>
+        `;
             hideMessages();
             loadingContainer.classList.remove('hide');
 

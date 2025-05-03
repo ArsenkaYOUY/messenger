@@ -27,3 +27,4 @@ export function updateFieldSuccessResponse(success, message) {
         message: message
     }
 }
+

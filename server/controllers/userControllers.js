@@ -1,7 +1,6 @@
 import { getUserByID } from '../models/authModel.js';
 import {getUserSuccessResponse, updateFieldErrorResponse, updateFieldSuccessResponse} from '../Views/userView.js';
 import { updateUserField } from "../models/updateUserInfoModel.js";
-import { uploadAvatar } from "../config/multerUpload.js";
 import { getUserByUsername } from '../models/userModel.js';
 
 export async function searchUser(req, res) {
@@ -64,6 +63,7 @@ export async function getCurrentUser(req, res) {
         })
     }
 }
+
 
 export async function updateAvatarController(req, res) {
     const userId = req.user.id;  // Получаем ID пользователя из JWT токена
