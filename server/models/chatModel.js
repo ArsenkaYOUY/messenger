@@ -16,20 +16,54 @@ export default class ChatModel {
             const query = `
             SELECT 
                 c.id,
-                c.name,
+                
+                CASE 
+                    WHEN c.is_group THEN c.name
+                    ELSE (
+                        SELECT u.full_name FROM users u
+                        JOIN chat_members cm ON cm.user_id = u.id
+                        WHERE c.id = cm.chat_id AND u.id != $1
+                        LIMIT 1
+                    )
+                END as name,
+                    
                 c.is_group,
-                c.avatar,
+                    
+                CASE
+                    WHEN c.is_group THEN c.avatar
+                    ELSE  (
+                        SELECT u.avatar_url FROM users u
+                        JOIN chat_members cm ON u.id = cm.user_id
+                        WHERE cm.chat_id = c.id AND u.id != $1
+                        LIMIT 1
+                    )
+                END as avatar,
+                    
+                CASE
+                    WHEN c.is_group THEN FALSE
+                    ELSE  (
+                        SELECT u.is_online FROM users u
+                        JOIN chat_members cm ON u.id = cm.user_id
+                        WHERE cm.chat_id = c.id AND u.id != $1
+                        LIMIT 1
+                    )
+                END as is_online,
+                    
                 c.updated_at AS "lastActivity", 
+                    
                  (SELECT content FROM messages WHERE chat_id = c.id ORDER BY
                   created_at DESC LIMIT 1) AS "lastMessage",
+                    
                  (SELECT COUNT(*) FROM unread_messages WHERE user_id =
                   $1 AND chat_id = c.id) AS "unreadCount"
+                  
                 FROM chats c
                 JOIN chat_members cm ON c.id = cm.chat_id
                 WHERE cm.user_id = $1
                 ORDER BY c.updated_at DESC;
         `;
             const result = await db.query(query, [userId]);
+            console.log(result.rows[0]);
             if (result.rows && result.rows.length > 0) {
                 return result.rows;
             }

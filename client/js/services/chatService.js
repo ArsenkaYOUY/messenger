@@ -17,7 +17,6 @@ export async function getUserChats() {
         if (skeletonElement)
             skeletonElement.classList.remove('hide');
 
-
         const result = await getChats();
         const data = await result.json();
         if (data.success) {

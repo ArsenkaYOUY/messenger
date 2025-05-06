@@ -28,6 +28,7 @@ router.put('/updateProfile/:field', authenticateUserToken, updateFieldController
 router.get('/search', searchUser)
 
 router.get("/chats", authenticateUserToken, getUserChats)
+// router.get("/chats", getUserChats)
 
 // router.get("/chats/:id" )
 //

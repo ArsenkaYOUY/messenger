@@ -18,18 +18,30 @@ export function renderChatList(chats) {
         chatItem.innerHTML = `
         <div class="chat-avatar">
             <div id="${avatarContainerId}" class="avatar-container"></div>
-            ${chat.status === 'online' ? '<div class="status-indicator online"></div>' : ''}
+            ${chat.isOnline ? '<div class="status-indicator online"></div>' : ''}
+<!--            <div class="status-indicator online"></div>-->
         </div>
         <div class="chat-content">
             <div class="chat-header">
-                <span class="chat-name">${chat.name || 'Без названия'}</span>
+                <span class="chat-name">${chat.name ? chat.name : ''}</span>
+                <span class="chat-time">${chat.lastActivity ? formatTime(chat.lastActivity) : ''}</span>
             </div>
             <div class="chat-preview">
+                 <div class="last-message">
+                    HelloHelloHelloHelloHe
+                 </div>
                 <span class="chat-status"></span>
             </div>
         </div>
     `;
-
+        console.log(JSON.stringify(chatItem.querySelector('.chat-name').textContent, null, 2));
+        // <div className="last-message">${chat.lastMessage ? chat.lastMessage : ''}</div>
+        // $
+        // {
+        //     chat.unreadCount > 0 ? `<div class="unread-badge">${chat.unreadCount}</div>` : ''
+        // }
+        // <span className="chat-status"></span>
+        // ${chat.lastMessage ? chat.lastMessage : ''}
         // Вставляем в DOM
         list.appendChild(chatItem);
 
@@ -37,6 +49,22 @@ export function renderChatList(chats) {
         const avatarContainer = chatItem.querySelector(`#${avatarContainerId}`);
         avatarManipulation(chat.avatar, avatarContainer, chat.name);
     });
+
+    function formatTime(timestamp) {
+        const date = new Date(timestamp);
+        const now = new Date();
+
+        if (date.toDateString() === now.toDateString()) {
+            // Сегодня - показываем только время
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } else if (date.getFullYear() === now.getFullYear()) {
+            // В этом году - показываем день и месяц
+            return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+        } else {
+            // Более старые даты - полная дата
+            return date.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+    }
 }
 
 const renderedUserIds = new Set();

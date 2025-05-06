@@ -8,6 +8,7 @@ export function getUserChatsSuccessResponse(success, userChats) {
             avatar: chat.avatar,
             lastActivity: chat.lastActivity,
             lastMessage: chat.lastMessage,
+            isOnline: chat.is_online,
             unreadCount: parseInt(chat.unreadCount) || 0
         }))
     };
