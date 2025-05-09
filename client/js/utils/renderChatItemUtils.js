@@ -11,6 +11,7 @@ export function renderChatList(chats) {
     chats.forEach((chat, index) => {
         const chatItem = document.createElement('div');
         chatItem.classList.add('chat-item');
+        chatItem.id = chat.id;
 
         // Создаём уникальный ID для контейнера аватара
         const avatarContainerId = `chat-avatar-${chat.id || index}`;
@@ -27,22 +28,15 @@ export function renderChatList(chats) {
                 <span class="chat-time">${chat.lastActivity ? formatTime(chat.lastActivity) : ''}</span>
             </div>
             <div class="chat-preview">
-                 <div class="last-message">
-                    HelloHelloHelloHelloHe
-                 </div>
+                  <div class="last-message">
+                        ${chat.lastMessage ? chat.lastMessage : ''}
+                  </div>
+                ${chat.unreadCount > 0 ? `<div class="unread-badge">${chat.unreadCount}</div>` : ''}
                 <span class="chat-status"></span>
             </div>
         </div>
     `;
-        console.log(JSON.stringify(chatItem.querySelector('.chat-name').textContent, null, 2));
-        // <div className="last-message">${chat.lastMessage ? chat.lastMessage : ''}</div>
-        // $
-        // {
-        //     chat.unreadCount > 0 ? `<div class="unread-badge">${chat.unreadCount}</div>` : ''
-        // }
-        // <span className="chat-status"></span>
-        // ${chat.lastMessage ? chat.lastMessage : ''}
-        // Вставляем в DOM
+
         list.appendChild(chatItem);
 
         // Вызов avatarManipulation после вставки
@@ -53,17 +47,23 @@ export function renderChatList(chats) {
     function formatTime(timestamp) {
         const date = new Date(timestamp);
         const now = new Date();
+        const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
 
-        if (date.toDateString() === now.toDateString()) {
-            // Сегодня - показываем только время
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        } else if (date.getFullYear() === now.getFullYear()) {
-            // В этом году - показываем день и месяц
-            return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
-        } else {
-            // Более старые даты - полная дата
-            return date.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
+        if (diffDays === 0) {
+            return date.toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit', hour12: false});
         }
+
+        if (diffDays === 1) {
+            return 'Вчера';
+        }
+
+        if (diffDays < 7) {
+            const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+            return days[date.getDay()];
+        }
+
+        return date.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
+
     }
 }
 
@@ -112,4 +112,53 @@ export function cleanFoundedUsers() {
     if (notFoundElement)
         notFoundElement.classList.add('hide');
     document.getElementById('my-chats-list').classList.remove('hide');
+}
+
+export function renderChatMessages(messages) {
+    const messagesList = document.getElementById('messages-list');
+    clearMessages()
+
+    const noMessagesEmptyState = document.getElementById('es-no-messages')
+    if (!(messages.length > 0)) {
+        if (noMessagesEmptyState)
+            noMessagesEmptyState.classList.remove('hide');
+        return;
+    }
+
+    const messagesContainer = document.getElementById('messages-container');
+    messagesList.innerHTML = '';
+    messagesContainer.classList.remove('hide');
+
+    messages.forEach(message => {
+        const messageElement = createMessageElement(message);
+        messagesList.appendChild(messageElement);
+    });
+
+    // Прокручиваем вниз
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    // Создание DOM-элемента для сообщения
+    function createMessageElement(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${message.is_my_message ? 'my-message' : 'other-message'}`;
+
+        const time = new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        messageDiv.innerHTML = `
+            ${!message.is_my_message ? `
+                <div class="message-sender">${message.full_name}</div>
+            ` : ''}
+            <div class="message-content">${message.content}</div>
+            <div class="message-time">${time}</div>
+        `;
+
+        return messageDiv;
+
+    }
+
+    function clearMessages() {
+        messagesList.innerHTML = ''; // Полная очистка контейнера
+    }
+
+
 }

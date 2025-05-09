@@ -1,9 +1,45 @@
 import {getUserChatsSuccessResponse} from "../views/chatView.js";
 import db from "../config/db_connect.js";
 import ChatView from "../views/chatView.js";
+
 import ChatModel from "../models/chatModel.js";
+
 import { getUserByID } from "../models/authModel.js";
 
+export async function getChatMessages(req, res) {
+    const chatId = req.params.chatId;
+    const limit = req.params.limit || 50;
+    const offset = req.params.offset || 0;
+
+    try {
+        if (!chatId || isNaN(chatId)) {
+            return res.status(400).json({
+                success: false,
+                error: "Некорректный chatId"
+            });
+        }
+
+        const result = await ChatModel.getMessages(chatId, limit, offset);
+        if (!result?.length) {
+            return res.status(200).json({
+                success: true,
+                data: [],
+                message: "В этом чате пока нет сообщений"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: result
+        })
+    }
+    catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: error
+        });
+    }
+}
 
 export async function getUserChats(req, res) {
     const userId = req.user.id

@@ -9,3 +9,14 @@ export async function getChats() {
     })
     return result;
 }
+
+export async function getMessages(chatId) {
+    const token = localStorage.getItem('accessToken');
+    const result = await fetch(`http://localhost:3000/api/user/chats/${chatId}/messages`, {
+        method: 'GET',
+        // headers: {
+        //     'authorization': `Bearer ${token}`
+        // }
+    })
+    return result;
+}

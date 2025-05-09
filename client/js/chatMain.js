@@ -5,7 +5,7 @@ import { setupIconActiveSectionSwitch, loadSectionContent, setupEditProfileInfo}
 import { setupAllEmptyStates} from "./ui/emptyStatesSetup.js";
 import { searchUserHandler } from "./handlers/chatsSearchUserHandler.js"
 import { getUserChats } from "./services/chatService.js"
-import { chatDialogClickHandler } from "./handlers/chatDialogClickHandler.js";
+import { chatItemClickHandler } from "./handlers/chatItemClickHandler.js";
 
 document.addEventListener('DOMContentLoaded', async() => {
     await checkAuthSession();
@@ -14,5 +14,5 @@ document.addEventListener('DOMContentLoaded', async() => {
     setupAllEmptyStates()
     searchUserHandler()
     await getUserChats()
-    chatDialogClickHandler();
+    chatItemClickHandler();
 })

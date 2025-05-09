@@ -8,6 +8,7 @@ import { searchUser } from '../controllers/userControllers.js';
 
 import {getUserChats} from "../controllers/chatControllers.js";
 import { createUserChat} from "../controllers/chatControllers.js";
+import { getChatMessages } from "../controllers/chatControllers.js";
 
 const router = express.Router();
 
@@ -30,7 +31,8 @@ router.get('/search', searchUser)
 router.get("/chats", authenticateUserToken, getUserChats)
 // router.get("/chats", getUserChats)
 
-// router.get("/chats/:id" )
+// router.get("/chats/:id/messages", authenticateUserToken, getChatMessages)
+router.get("/chats/:chatId/messages", getChatMessages)
 //
 router.post("/chats", createUserChat)
 //
