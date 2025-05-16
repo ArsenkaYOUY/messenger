@@ -119,7 +119,11 @@ export function renderChatMessages(messages) {
     clearMessages()
 
     const noMessagesEmptyState = document.getElementById('es-no-messages')
-    if (!(messages.length > 0)) {
+    noMessagesEmptyState.classList.add('hide');
+
+    const isEmpty = !Array.isArray(messages) || messages.length === 0;
+
+    if (isEmpty) {
         if (noMessagesEmptyState)
             noMessagesEmptyState.classList.remove('hide');
         return;
@@ -140,15 +144,15 @@ export function renderChatMessages(messages) {
     // Создание DOM-элемента для сообщения
     function createMessageElement(message) {
         const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${message.is_my_message ? 'my-message' : 'other-message'}`;
+        messageDiv.className = `message ${message?.is_my_message ? 'my-message' : 'other-message'}`;
 
-        const time = new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const time = new Date(message?.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         messageDiv.innerHTML = `
-            ${!message.is_my_message ? `
-                <div class="message-sender">${message.full_name}</div>
+            ${!message?.is_my_message ? `
+                <div class="message-sender">${message?.full_name}</div>
             ` : ''}
-            <div class="message-content">${message.content}</div>
+            <div class="message-content">${message?.content}</div>
             <div class="message-time">${time}</div>
         `;
 

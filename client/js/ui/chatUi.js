@@ -308,3 +308,29 @@ export function setupEditProfileInfo() {
         successContainer.classList.add('hide');
     }
 }
+
+export function setupSendMessageInput() {
+    const textareaEl = document.querySelector('.dialog-input')
+    const btnEl = document.getElementById('send-message-button');
+
+    textareaEl.addEventListener('input', () => {
+        textareaEl.style.height = 'auto';
+
+        // Устанавливаем новую высоту (но не больше max-height)
+        const newHeight = Math.min(textareaEl.scrollHeight, 150);
+        textareaEl.style.height = `${newHeight}px`;
+
+        // Показываем scrollbar если достигли максимума
+        textareaEl.style.overflowY = newHeight >= 150 ? 'auto' : 'hidden';
+    });
+
+    textareaEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            if (textareaEl.value.trim()) {
+                textareaEl.style.height = '25px';
+                btnEl.click(); // Триггер отправки
+            }
+        }
+    });
+}

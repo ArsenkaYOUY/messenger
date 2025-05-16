@@ -16,9 +16,10 @@ router.get('/me', authenticateUserToken,  getCurrentUser)
 
 router.get('/validate-token', authenticateUserToken, (req, res) => {
     return res.status(200).json({
-        success: true,
-        message: 'token is valid',
-        user: req.user
+        // success: true,
+        // message: 'token is valid',
+        // user: req.user
+        userId:  req.user.id
     })
 })
 

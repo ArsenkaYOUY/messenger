@@ -3,18 +3,30 @@
 import {checkAuthSession} from "../services/checkAuthSession.js";
 import {getMessages} from "../api/chatApi.js";
 import {renderChatMessages} from "../utils/renderChatItemUtils.js";
+import { handleIncomingMessages } from "./messageHandler.js";
 
-export function chatItemClickHandler() {
+export function chatItemClickHandler(userId) {
     const chatItems = document.querySelectorAll('.chat-item');
     const dialog = document.getElementById('chat-dialog');
     const contextMenu = document.getElementById('chat-context-menu');
     const backdropElement = document.getElementById('backdrop');
     const contextMenuItems = contextMenu.querySelectorAll('.context-menu-item');
 
+    let currentChat = null;
+
     chatItems.forEach(chatItem => {
         chatItem.addEventListener('click', (e) => {
             e.preventDefault()
+            if (currentChat === chatItem.id)
+                return;
 
+            document.getElementById('es-no-chosen-chat').classList.add('hide');
+            document.querySelector('.dialog-messages').classList.remove('hide');
+            document.querySelector('.dialog-input-container').classList.remove('hide')
+            document.querySelector('.dialog-header').classList.remove('hide')
+
+            currentChat = chatItem.id;
+            console.log('chatItem clicked');
             hideChatItems()
             activateChatItem(chatItem);
 
@@ -25,9 +37,10 @@ export function chatItemClickHandler() {
             avatarContainer.innerHTML =  chatItem.querySelector('.chat-avatar').innerHTML;
 
 
+            handleIncomingMessages(chatItem.id, userId);
             // Здесь нужно отправить запрос на сервер для получения соощений
             // Если нет сообщений, вывести emptyState.
-            getChatMessages(chatItem);
+            /* getChatMessages(chatItem); // не нужно так как историю сообщений по web sockets получаю*/
         })
 
         chatItem.addEventListener('contextmenu', (e) => {
@@ -75,7 +88,7 @@ export function chatItemClickHandler() {
             const chatId = chatItem.id;
             const result = await getMessages(chatId);
             const resultData = await result.json();
-            console.log('resultData: ', JSON.stringify(resultData, null, 2));
+            console.log('messages resultData: ', JSON.stringify(resultData, null, 2))
             if (resultData.success) {
                 renderChatMessages(resultData.data);
                 // if (skeletonElement)

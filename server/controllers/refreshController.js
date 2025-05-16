@@ -9,8 +9,10 @@ import {
 
 export async function refreshToken(req, res) {
     const tokenService = new TokenService();
+    const origin = req.headers.origin;
 
     const cookRefreshToken= req.cookies.refreshToken;
+    console.log("cook refreshToken ", cookRefreshToken);
     if (!cookRefreshToken) {
         return res.status(401).json(refreshErrorResponse('Сеанс закончен. Повторите вход'))
     }
@@ -28,7 +30,8 @@ export async function refreshToken(req, res) {
 
         return res
             .status(200)
-            .header('Access-Control-Allow-Origin', 'http://localhost:63342')
+            // .header('Access-Control-Allow-Origin', 'http://localhost:63342')
+            .header('Access-Control-Allow-Origin', origin)
             .header('Access-Control-Allow-Credentials', 'true')
             .json({ accessToken: newAccessToken });
     }

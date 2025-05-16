@@ -6,6 +6,7 @@
         <title>Wire</title>
         <link  rel="stylesheet" href="./styles/chat-styles.css">
         <link rel="stylesheet" href="./styles/reset.css">
+        <script src="https://cdn.socket.io/4.7.1/socket.io.min.js"></script>
     </head>
     <body>
     <header></header>
@@ -91,7 +92,7 @@
             </div>
 
             <div id="chat-dialog" class="dialog-container">
-                <div class="dialog-header">
+                <div class="dialog-header hide">
                     <div class="dialog-partner">
                         <div class="dialog-avatar-container"></div>
 <!--                        <img src="images/user.png" alt="Аватар">-->
@@ -99,9 +100,15 @@
                     </div>
                 </div>
 
-                <div  class="dialog-messages">
+                <div id="es-no-chosen-chat" class="empty-state ">
+                    <div id="lottie-no-chosen-chat" style="width: 200px; height: 200px;"></div>
+                    <h3 class="empty-state-title">Добро пожаловать в Wire!</h3>
+                    <p class="empty-state-description">Иногда одно слово — уже мост между двумя мирами</p>
+                </div>
+
+                <div class="dialog-messages hide">
                     <!-- empty-state загрузка (показывается, если нет сообщений) -->
-                    <div id="es-no-messages" class="empty-state">
+                    <div id="es-no-messages" class="empty-state hide">
                         <div id="lottie-no-messages" style="width: 200px; height: 200px;"></div>
                         <h3 class="empty-state-title">Здесь пока пусто</h3>
                         <p class="empty-state-description">Напишите первое сообщение!</p>
@@ -115,9 +122,9 @@
                         </div>
                 </div>
 
-                <div class="dialog-input-container">
-                    <input type="text" class="dialog-input" placeholder="Сообщение...">
-                    <button class="send-button">Отправить</button>
+                <div class="dialog-input-container hide">
+                    <textarea class="dialog-input" placeholder="Сообщение..." rows="1"></textarea>
+                    <button id="send-message-button" class="send-button">Отправить</button>
                 </div>
             </div>
         </section>

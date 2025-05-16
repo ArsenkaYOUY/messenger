@@ -94,6 +94,9 @@ body {
 
 .chats-container {
     flex: 0 0 460px;
+    min-width: 280px;
+    height: 100%;
+    flex-shrink: 1;
     border-right: 1px solid #e0e0e0;
     overflow-x: hidden;
     overflow-y: auto;
@@ -380,7 +383,7 @@ body {
     border-top: 1px solid #e0e0e0;
     background-color: white;
     display: flex;
-    align-items: center;
+    align-items: flex-end; /* Для выравнивания по нижнему краю */
 }
 
 .dialog-input {
@@ -390,6 +393,12 @@ body {
     border-radius: 20px;
     margin-right: 10px;
     font-family: 'IBM Plex Mono', monospace;
+    resize: none; /* Отключаем resize */
+    overflow-y: hidden; /* Скрываем scrollbar */
+    min-height: 44px; /* Минимальная высота = 1 строка */
+    max-height: 150px; /* Максимальная высота */
+    line-height: 1.4;
+    transition: height 0.2s ease;
 }
 
 .send-button {
@@ -505,6 +514,11 @@ body {
 
 .empty-state-button:hover {
     background-color: #0a56a5;
+}
+
+#es-no-chosen-chat {
+    height: 100vh;
+    margin-bottom: 35px;
 }
 
 /* -------------------- PROFILE SKELETON SECTION ------------------- */

@@ -14,10 +14,9 @@ export async function validateTokenAndSetUser() {
             throw new Error('Token is invalid');
         }
 
-        if (!localStorage.getItem('userData')) {
-            const userData = await response.json();
-            localStorage.setItem('userData', JSON.stringify(userData));
-        }
+        const userData = await response.json();
+        localStorage.setItem('userData', JSON.stringify(userData));
+
 
         return {
             isValid: true
