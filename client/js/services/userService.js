@@ -64,6 +64,7 @@ export async function loadUserProfile() {
 }
 
 export async function saveProfileData(field, value) {
+    await new Promise(resolve => setTimeout(resolve, 500));
     try {
         const response = await updateProfileField(field, value);
 

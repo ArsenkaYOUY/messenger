@@ -122,15 +122,15 @@ export function setupEditProfileInfo() {
             startEditing(row, field, valueElement, inputElement);
         });
 
-        inputElement.addEventListener('blur', () => {
+        inputElement.addEventListener('blur', async () => {
             if (!isProcessing) {
-                handleFieldSave(row, field, valueElement, inputElement, editButton);
+               await handleFieldSave(row, field, valueElement, inputElement, editButton);
             }
         });
 
-        inputElement.addEventListener('keydown', (e) => {
+        inputElement.addEventListener('keydown', async (e) => {
             if (e.key === 'Enter' && !isProcessing) {
-                handleFieldSave(row, field, valueElement, inputElement, editButton);
+               await handleFieldSave(row, field, valueElement, inputElement, editButton);
             }
         });
     });
@@ -228,7 +228,7 @@ export function setupEditProfileInfo() {
         if (isProcessing) return;
 
         const newValue = inputElement.value.trim();
-        const oldValue = valueElement.textContent;
+        let oldValue = valueElement.textContent;
 
         if (!newValue || newValue === oldValue) {
             cancelEdit(valueElement, inputElement, editButton);
@@ -257,14 +257,16 @@ export function setupEditProfileInfo() {
 
             await saveProfileData(field, formattedValue);
 
-            if (field === 'fullname') {
+            if (field === 'fullname' ) {
                 document.getElementById('profile-fullname').textContent = formattedValue;
-                avatarManipulation('', avatarContainer, formattedValue);
+                if (!document.querySelector('.avatar-container .avatar-image'))
+                    avatarManipulation('', avatarContainer, formattedValue);
             }
             valueElement.textContent = formattedValue;
             cancelEdit(valueElement, inputElement, editButton);
             currentlyEditing = null;
             showSuccess(`Данные успешно сохранены`);
+
         } catch (error) {
             inputElement.value = oldValue.startsWith('@')
                 ? oldValue.substring(1)
@@ -272,9 +274,9 @@ export function setupEditProfileInfo() {
             showError(error.message);
             inputElement.focus();
         } finally {
+            loadingContainer.classList.add('hide');
             isProcessing = false;
             inputElement.disabled = false;
-            loadingContainer.classList.add('hide');
         }
     }
 
