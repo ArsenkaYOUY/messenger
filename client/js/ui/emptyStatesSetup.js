@@ -6,7 +6,6 @@ function emptyStateLoad (elementId, path) {
         renderer: "svg", // Формат рендера (svg/canvas/html)
         loop: true, // Зацикливание
         autoplay: true, // Автозапуск
-        // path: "./lottie-animations/no-results.json" // Путь к файлу
         path: path // Путь к файлу
     });
 }

@@ -14,14 +14,15 @@ export function configureSockets(io) {
             socket.join(chatId);
             console.log(`Пользователь подключился к комнате ${chatId}`);
             // Сделать запрос к бд на отрисовку сообщений в чате
-            // const result = await pool.query(messagesQuery, [chatId]);
-            // const messages = await result.json;
-            socket.emit("chat_history", { chatId, messages: {}} );
+            // socket.emit("chat_history", { chatId, messages: { full_name: 'ars', content : 'hello', created_at : Date.now() }  } );
+            const fiveDaysAgo = Date.now() - (5 * 24 * 60 * 60 * 1000);
+            socket.emit("chat_history", { chatId, messages: { content : 'hello', created_at : fiveDaysAgo  }  } );
+            // socket.emit("chat_history", { chatId, messages: {}  } );
         })
 
         // Обработка отправки сообщений
         socket.on("send_message", async (data) => {
-            const { senderId, chatId, content } = data;
+            const { senderId, chatId, content, created_at } = data;
             try {
                 // Если чат не найден, создаем новый
                 if (!chatId) {
@@ -47,7 +48,7 @@ export function configureSockets(io) {
                     message: {
                         senderId,
                         content,
-                        timestamp: Date.now(),
+                        created_at
                     },
                 });
 
@@ -56,23 +57,6 @@ export function configureSockets(io) {
                 console.error('Ошибка отправки сообщения:', error);
             }
         })
-
-        // socket.on('message', (messageData) => {
-        //     const { senderId, chatId, content } = messageData;
-        //
-        //     console.log(JSON.stringify(messageData));
-        //
-        //     socket.emit("new_message", {
-        //         chatId,  // добавляем ID чата
-        //         message: {  // структурируем данные
-        //             content: messageData.content,
-        //             senderId: messageData.senderId,
-        //             timestamp: messageData.timestamp
-        //             // другие поля по необходимости
-        //         }
-        //     });
-        //
-        // })
 
         socket.on('leave_room', (roomId) => {
             socket.leave(roomId);

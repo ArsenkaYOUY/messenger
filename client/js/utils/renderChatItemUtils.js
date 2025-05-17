@@ -63,7 +63,6 @@ export function renderChatList(chats) {
         }
 
         return date.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
-
     }
 }
 
@@ -112,57 +111,4 @@ export function cleanFoundedUsers() {
     if (notFoundElement)
         notFoundElement.classList.add('hide');
     document.getElementById('my-chats-list').classList.remove('hide');
-}
-
-export function renderChatMessages(messages) {
-    const messagesList = document.getElementById('messages-list');
-    clearMessages()
-
-    const noMessagesEmptyState = document.getElementById('es-no-messages')
-    noMessagesEmptyState.classList.add('hide');
-
-    const isEmpty = !Array.isArray(messages) || messages.length === 0;
-
-    if (isEmpty) {
-        if (noMessagesEmptyState)
-            noMessagesEmptyState.classList.remove('hide');
-        return;
-    }
-
-    const messagesContainer = document.getElementById('messages-container');
-    messagesList.innerHTML = '';
-    messagesContainer.classList.remove('hide');
-
-    messages.forEach(message => {
-        const messageElement = createMessageElement(message);
-        messagesList.appendChild(messageElement);
-    });
-
-    // Прокручиваем вниз
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-    // Создание DOM-элемента для сообщения
-    function createMessageElement(message) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${message?.is_my_message ? 'my-message' : 'other-message'}`;
-
-        const time = new Date(message?.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-        messageDiv.innerHTML = `
-            ${!message?.is_my_message ? `
-                <div class="message-sender">${message?.full_name}</div>
-            ` : ''}
-            <div class="message-content">${message?.content}</div>
-            <div class="message-time">${time}</div>
-        `;
-
-        return messageDiv;
-
-    }
-
-    function clearMessages() {
-        messagesList.innerHTML = ''; // Полная очистка контейнера
-    }
-
-
 }

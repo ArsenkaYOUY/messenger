@@ -422,30 +422,66 @@ body {
 .messages-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 4px;
+    overflow-y: auto;
+    scrollbar-width: thin; /* Для Firefox */
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* Для Firefox */
+}
+
+.message-date {
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 16px;
+    margin: 3px auto;
+    text-align: center;
+    backdrop-filter: blur(6px);
 }
 
 .message {
     max-width: 70%;
-    padding: 12px 16px;
+    padding: 8px 12px;
     border-radius: 18px;
     position: relative;
     word-wrap: break-word;
+    background-color: #dcf8c6;
+    display: inline-block;
 }
 
 .message.my-message {
     align-self: flex-end;
-    background: #007aff;
-    color: white;
     border-bottom-right-radius: 4px;
 }
 
 .message.other-message {
     align-self: flex-start;
     background: white;
-    border: 1px solid #e1e1e1;
     border-bottom-left-radius: 4px;
 }
+
+.message-content {
+    vertical-align: middle;
+    word-wrap: break-word;
+    word-break: break-word;
+    padding-right: 37px;
+    line-height: 1.2;
+}
+
+
+.message-time {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: #999;
+    /*margin-top: 4px;*/
+    position: absolute;
+    bottom: 2px;
+    right: 10px;
+    white-space: nowrap;
+}
+
+
 
 .message-avatar {
     width: 32px;
@@ -459,13 +495,6 @@ body {
     font-weight: bold;
     margin-bottom: 4px;
     font-size: 14px;
-}
-
-.message-time {
-    font-size: 11px;
-    color: #999;
-    text-align: right;
-    margin-top: 4px;
 }
 
 

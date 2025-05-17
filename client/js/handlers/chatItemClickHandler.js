@@ -1,8 +1,5 @@
 'use strict'
 
-import {checkAuthSession} from "../services/checkAuthSession.js";
-import {getMessages} from "../api/chatApi.js";
-import {renderChatMessages} from "../utils/renderChatItemUtils.js";
 import { handleIncomingMessages } from "./messageHandler.js";
 
 export function chatItemClickHandler(userId) {
@@ -38,9 +35,6 @@ export function chatItemClickHandler(userId) {
 
 
             handleIncomingMessages(chatItem.id, userId);
-            // Здесь нужно отправить запрос на сервер для получения соощений
-            // Если нет сообщений, вывести emptyState.
-            /* getChatMessages(chatItem); // не нужно так как историю сообщений по web sockets получаю*/
         })
 
         chatItem.addEventListener('contextmenu', (e) => {
@@ -68,45 +62,7 @@ export function chatItemClickHandler(userId) {
         document.addEventListener('click',() => {
             hideContextMenu()
         })
-
-
     })
-
-    async function getChatMessages(chatItem) {
-        const noMessagesEmptyState = document.getElementById('es-no-messages')
-        // const skeletonElement = document.getElementById('search-skeleton-container');
-
-        try {
-            await checkAuthSession();
-
-            if (noMessagesEmptyState)
-                noMessagesEmptyState.classList.add('hide');
-
-            // if (skeletonElement)
-            //     skeletonElement.classList.remove('hide');
-
-            const chatId = chatItem.id;
-            const result = await getMessages(chatId);
-            const resultData = await result.json();
-            console.log('messages resultData: ', JSON.stringify(resultData, null, 2))
-            if (resultData.success) {
-                renderChatMessages(resultData.data);
-                // if (skeletonElement)
-                //     skeletonElement.classList.add('hide');
-            }
-            else {
-                if (noMessagesEmptyState)
-                    noMessagesEmptyState.classList.remove('hide')
-                // if (skeletonElement)
-                //     skeletonElement.classList.add('hide');
-            }
-        }
-        catch (error) {
-            console.error(error);
-            if (noMessagesEmptyState)
-                noMessagesEmptyState.classList.remove('hide')
-        }
-    }
 
     function showContextMenu() {
         contextMenu.classList.add('visible');

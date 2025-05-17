@@ -8,7 +8,7 @@ export function sendMessage(chatId, message, userId) {
         chatId,
         senderId: userId,
         content: message,
-        timestamp: Date.now(),
+        created_at: Date.now(),
     };
 
     socket.emit("send_message", messageData);
