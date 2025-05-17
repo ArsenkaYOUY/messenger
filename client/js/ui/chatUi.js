@@ -3,6 +3,7 @@
 import { loadUserProfile } from "../services/userService.js";
 import { saveProfileData } from "../services/userService.js";
 import { avatarManipulation } from "../utils/avatarUtils.js"
+import { checkAuthSession } from "../services/checkAuthSession.js";
 
 export function setupIconActiveSectionSwitch() {
     const sideMenuLinks = document.querySelectorAll('.side-menu-link')
@@ -24,6 +25,7 @@ export async function loadSectionContent(targetElement) {
         section.classList.add('hide');
     });
 
+    await checkAuthSession();
     const activeSection = document.getElementById(targetElement);
     if (activeSection) {
         activeSection.classList.remove('hide');
