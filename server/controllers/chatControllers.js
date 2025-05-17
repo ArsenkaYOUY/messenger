@@ -6,6 +6,16 @@ import ChatModel from "../models/chatModel.js";
 
 import { getUserByID } from "../models/authModel.js";
 
+export async function createMessage(chatId, senderId, content, createdAt) {
+    try {
+        await ChatModel.createMessage(chatId,senderId, content, createdAt);
+    }
+    catch (error) {
+        console.log('Ошибка сохранения сообщения в базу данных')
+        console.log(error)
+    }
+}
+
 export async function getChatMessages(chatId, limit = 50, offset = 0) {
     try {
         const result = await ChatModel.getMessages(chatId, limit, offset);

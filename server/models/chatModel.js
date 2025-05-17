@@ -11,6 +11,16 @@ export default class ChatModel {
         return rows[0];
     }
 
+    static async createMessage(chatId, senderId, content, created_at, client = db) {
+        const createdAtISO = new Date(created_at).toISOString();
+        const { rows } = await client.query(
+            `INSERT INTO messages (chat_id, user_id, content, created_at)
+             VALUES ($1, $2, $3, $4)`,
+            [chatId, senderId, content, createdAtISO]
+        )
+        return rows[0];
+    }
+
     static async getMessages(chatId, limit = 50, offset = 0){
         try {
             const query = `

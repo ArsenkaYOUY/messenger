@@ -1,4 +1,5 @@
-import { getChatMessages } from "../controllers/chatControllers.js";
+import { getChatMessages } from "./chatControllers.js";
+import { createMessage } from "./chatControllers.js";
 
 export function configureSockets(io) {
     let users = {}
@@ -36,15 +37,7 @@ export function configureSockets(io) {
                     // io.to(recipientId).emit("chat_created", { chatId, senderId });
                 }
 
-                // Сохранение сообщения в базу данных
-
-                // Обновляем последнее сообщение в чате
-                // const updateChatQuery = `
-                //     UPDATE chats
-                //     SET last_message = $1
-                //     WHERE id = $2
-                // `;
-                // await pool.query(updateChatQuery, [message, chatId]);
+                await createMessage(chatId, sender_id, content, created_at);
 
                 // Отправляем сообщение другим участникам чата
                 io.to(chatId).emit("new_message", {
