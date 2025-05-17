@@ -18,7 +18,7 @@ export default class ChatModel {
                     m.id,
                     m.content,
                     m.created_at,
-                    u.id,
+                    u.id as sender_id,
                     u.avatar_url,
                     u.full_name
                 FROM messages m

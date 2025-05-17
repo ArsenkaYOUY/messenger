@@ -1,6 +1,7 @@
 'use strict'
 
 import { handleIncomingMessages } from "./messageHandler.js";
+import { leaveRoom } from "../services/socketsSetup.js";
 
 export function chatItemClickHandler(userId) {
     const chatItems = document.querySelectorAll('.chat-item');
@@ -33,7 +34,7 @@ export function chatItemClickHandler(userId) {
             const avatarContainer = dialog.querySelector('.dialog-avatar-container');
             avatarContainer.innerHTML =  chatItem.querySelector('.chat-avatar').innerHTML;
 
-
+            leaveRoom(userId,chatItem.id);
             handleIncomingMessages(chatItem.id, userId);
         })
 

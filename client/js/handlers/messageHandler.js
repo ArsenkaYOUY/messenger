@@ -18,20 +18,15 @@ export function sendMessageHandler(userId) {
 }
 
 export function handleIncomingMessages(chatId, userId) {
-    const socket = connectSocket(userId);
+    const socket = connectSocket(userId,chatId);
 
     joinRoom(chatId, userId);
 
     socket.on("chat_history", (data) => {
         if (data.chatId === chatId) {
-            const isValidMessage = data.messages &&
-                data.messages.content &&
-                typeof data.messages.content === 'string';
-
-            const messagesToRender = isValidMessage ? [data.messages] : [];
-
-            console.log("История сообщений:", messagesToRender);
-            renderChatMessages(userId,messagesToRender);
+            const { messages } = data;
+            console.log(messages)
+            renderChatMessages(userId,messages);
         }
     });
 
@@ -59,8 +54,6 @@ const messagesList = document.getElementById('messages-list');
 
 function addMessageToChat(userId, message) {
     const messageElement = createMessageElement(userId,message);
-    // messageElement.className = `message ${message.senderId === userId ? 'my-message' : 'other-message'}`;
-    // messageElement.textContent = message.content;
 
     messagesList.appendChild(messageElement);
 }
@@ -120,7 +113,7 @@ function createMessageElement(userId, message) {
 
     // Создаем основной контейнер сообщения
     const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${message.senderId === userId ? 'my-message' : 'other-message'}`;
+    messageDiv.className = `message ${message.sender_id === userId ? 'my-message' : 'other-message'}`;
     messageDiv.innerHTML = `
         ${message.full_name ? `<div class="message-sender">${message.full_name}</div>` : ''}
         <div class="message-content">${message.content}</div>

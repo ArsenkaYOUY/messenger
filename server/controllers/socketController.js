@@ -1,3 +1,5 @@
+import { getChatMessages } from "../controllers/chatControllers.js";
+
 export function configureSockets(io) {
     let users = {}
 
@@ -11,18 +13,20 @@ export function configureSockets(io) {
 
         socket.on('join_room', async (data) => {
             const { chatId } = data
+            console.log(`Пользователь отключился от комнате ${chatId}`);
+        })
+
+        socket.on('join_room', async (data) => {
+            const { chatId } = data
             socket.join(chatId);
             console.log(`Пользователь подключился к комнате ${chatId}`);
-            // Сделать запрос к бд на отрисовку сообщений в чате
-            // socket.emit("chat_history", { chatId, messages: { full_name: 'ars', content : 'hello', created_at : Date.now() }  } );
-            const fiveDaysAgo = Date.now() - (5 * 24 * 60 * 60 * 1000);
-            socket.emit("chat_history", { chatId, messages: { content : 'hello', created_at : fiveDaysAgo  }  } );
-            // socket.emit("chat_history", { chatId, messages: {}  } );
+            const messages = await getChatMessages(chatId);
+            socket.emit("chat_history", { chatId, messages: messages  } );
         })
 
         // Обработка отправки сообщений
         socket.on("send_message", async (data) => {
-            const { senderId, chatId, content, created_at } = data;
+            const { sender_id, chatId, content, created_at } = data;
             try {
                 // Если чат не найден, создаем новый
                 if (!chatId) {
@@ -46,13 +50,13 @@ export function configureSockets(io) {
                 io.to(chatId).emit("new_message", {
                     chatId,
                     message: {
-                        senderId,
+                        sender_id,
                         content,
                         created_at
                     },
                 });
 
-                console.log(`Сообщение от ${senderId} для ${chatId}: ${content}`);
+                console.log(`Сообщение от ${sender_id} для ${chatId}: ${content}`);
             } catch (error) {
                 console.error('Ошибка отправки сообщения:', error);
             }

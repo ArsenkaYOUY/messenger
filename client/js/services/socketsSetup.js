@@ -1,12 +1,13 @@
 let socket = null;
+let currentChatId = null;
 
-export function connectSocket(userId) {
+export function connectSocket(userId, chatId) {
     if (socket) return socket;
+    currentChatId = chatId;
 
     socket = io("http://localhost:3000");
 
     socket.on("connect", () => {
-        console.log("Подключено к серверу:", socket.id);
         socket.emit("authenticate", userId);
     });
 
@@ -22,8 +23,13 @@ export function connectSocket(userId) {
 }
 
 export function joinRoom(chatId, userId) {
-    const socket = connectSocket(userId);
-    console.log(chatId, userId);
-    console.log('подключились к комнате' + chatId)
+    const socket = connectSocket(userId, chatId);
     socket.emit("join_room", { chatId, userId });
+}
+
+export function leaveRoom(chatId, userId) {
+    const socket = connectSocket(userId,chatId);
+    socket.off('chat_history')
+    socket.off('new_message')
+    socket.emit('leave_room', { chatId, userId });
 }
