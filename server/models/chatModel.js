@@ -15,8 +15,17 @@ export default class ChatModel {
         const createdAtISO = new Date(created_at).toISOString();
         const { rows } = await client.query(
             `INSERT INTO messages (chat_id, user_id, content, created_at)
-             VALUES ($1, $2, $3, $4)`,
+             VALUES ($1, $2, $3, $4) RETURNING *`,
             [chatId, senderId, content, createdAtISO]
+        )
+        return rows[0];
+    }
+
+    static async createUnreadMessage(chatId, destinationUserId, messageId, client = db) {
+        const { rows } = await client.query(
+            `INSERT INTO unread_messages (user_id, chat_id, message_id)
+             VALUES ($1, $2, $3)`,
+            [destinationUserId, chatId, messageId]
         )
         return rows[0];
     }
@@ -30,9 +39,13 @@ export default class ChatModel {
                     m.created_at,
                     u.id as sender_id,
                     u.avatar_url,
-                    u.full_name
+                    CASE 
+                        WHEN c.is_group = true THEN u.full_name
+                        ELSE NULL
+                    END as full_name
                 FROM messages m
                 JOIN users u ON m.user_id = u.id
+                JOIN chats c ON m.chat_id = c.id
                 WHERE m.chat_id = $1
                 ORDER BY m.created_at ASC
                 LIMIT $2 OFFSET $3

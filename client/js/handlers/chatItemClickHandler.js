@@ -1,6 +1,6 @@
 'use strict'
 
-import { handleIncomingMessages } from "./messageHandler.js";
+import { socketEventsHandler } from "./messageHandler.js";
 import { leaveRoom } from "../services/socketsSetup.js";
 
 export function chatItemClickHandler(userId) {
@@ -34,8 +34,8 @@ export function chatItemClickHandler(userId) {
             const avatarContainer = dialog.querySelector('.dialog-avatar-container');
             avatarContainer.innerHTML =  chatItem.querySelector('.chat-avatar').innerHTML;
 
-            leaveRoom(userId,chatItem.id);
-            handleIncomingMessages(chatItem.id, userId);
+            leaveRoom(chatItem.id,userId);
+            socketEventsHandler(chatItem.id, userId);
         })
 
         chatItem.addEventListener('contextmenu', (e) => {

@@ -8,10 +8,21 @@ import { getUserByID } from "../models/authModel.js";
 
 export async function createMessage(chatId, senderId, content, createdAt) {
     try {
-        await ChatModel.createMessage(chatId,senderId, content, createdAt);
+        const result = await ChatModel.createMessage(chatId,senderId, content, createdAt);
+        return result;
     }
     catch (error) {
         console.log('Ошибка сохранения сообщения в базу данных')
+        console.log(error)
+    }
+}
+
+export async function createUnreadMessage(chatId, destinationUserId, messageId) {
+    try {
+        await ChatModel.createUnreadMessage(chatId,destinationUserId, messageId);
+    }
+    catch (error) {
+        console.log('Ошибка сохранения непрочитанного сообщения в базу данных')
         console.log(error)
     }
 }

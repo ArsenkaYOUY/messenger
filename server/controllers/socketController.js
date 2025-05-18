@@ -1,26 +1,20 @@
 import { getChatMessages } from "./chatControllers.js";
 import { createMessage } from "./chatControllers.js";
+import { createUnreadMessage } from "./chatControllers.js";
+import { createUserChat } from "./chatControllers.js";
 
 export function configureSockets(io) {
     let users = {}
 
     io.on('connection', socket => {
-        console.log('User connected to the server, socket: ' + socket.id);
 
         socket.on('authenticate', (userId) => {
             users[userId] = socket.id
-            console.log('user authenticate: ', userId);
-        })
-
-        socket.on('join_room', async (data) => {
-            const { chatId } = data
-            console.log(`Пользователь отключился от комнате ${chatId}`);
         })
 
         socket.on('join_room', async (data) => {
             const { chatId } = data
             socket.join(chatId);
-            console.log(`Пользователь подключился к комнате ${chatId}`);
             const messages = await getChatMessages(chatId);
             socket.emit("chat_history", { chatId, messages: messages  } );
         })
@@ -31,18 +25,16 @@ export function configureSockets(io) {
             try {
                 // Если чат не найден, создаем новый
                 if (!chatId) {
-                    // Запрос к бд на создание чата между двумя пользователями
 
-                    // io.to(senderId).emit("chat_created", { chatId, recipientId });
-                    // io.to(recipientId).emit("chat_created", { chatId, senderId });
                 }
 
-                await createMessage(chatId, sender_id, content, created_at);
+                const message = await createMessage(chatId, sender_id, content, created_at);
 
                 // Отправляем сообщение другим участникам чата
                 io.to(chatId).emit("new_message", {
                     chatId,
                     message: {
+                        message_id : message.id,
                         sender_id,
                         content,
                         created_at
@@ -55,13 +47,22 @@ export function configureSockets(io) {
             }
         })
 
-        socket.on('leave_room', (roomId) => {
-            socket.leave(roomId);
-            console.log(`Пользователь отключился из комнаты ${roomId}`)
+        socket.on('notification', async (data) => {
+            const {chatId, userId : destUser, messageId } = data;
+            try {
+                await createUnreadMessage(chatId, destUser, messageId);
+                socket.emit('notification',data)
+            } catch (error) {
+                console.error('Ошибка отправки уведомления:', error);
+            }
+        })
+
+        socket.on('leave_room', (data) => {
+            console.log(data.chatId)
+            socket.leave(data.chatId);
         })
 
         socket.on("disconnect", () => {
-            console.log("Пользователь отключился:", socket.id);
             for (const [userId, socketId] of Object.entries(users)) {
                 if (socketId === socket.id) delete users[userId];
             }

@@ -17,7 +17,7 @@ export function sendMessageHandler(userId) {
     });
 }
 
-export function handleIncomingMessages(chatId, userId) {
+export function socketEventsHandler(chatId, userId) {
     const socket = connectSocket(userId,chatId);
 
     joinRoom(chatId, userId);
@@ -39,15 +39,25 @@ export function handleIncomingMessages(chatId, userId) {
             hasMessages = true;
         }
 
+        // Обновить lastMessage, time у чата с data.chatId
         console.log("Новое сообщение:", data);
         if (data.chatId === chatId) {
-            console.log("Новое сообщение в этом чате:", data.message);
             addMessageToChat(userId, data.message);
         }
         else {
-            // уведомления и тд
+            if (userId !== data.message.sender_id) {
+                console.log('before notif',data)
+                const newData = { chatId: data.chatId, userId,  messageId : data.message.message_id  };
+                console.log('change:', newData )
+                socket.emit('notification', newData)
+            }
         }
     });
+
+    socket.on('notification', (data) => {
+        console.log('Получено уведомление от сервера: ', data)
+    })
+
 }
 
 const messagesList = document.getElementById('messages-list');
@@ -95,7 +105,6 @@ function renderChatMessages(userId,messages) {
 }
 
 function createMessageElement(userId, message) {
-    console.log('createMessageElement', message);
 
     const messageDate = new Date(message.created_at).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
     const messageTime = new Date(message.created_at).toLocaleTimeString(['ru-RU'], { hour: '2-digit', minute: '2-digit' });

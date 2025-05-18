@@ -31,5 +31,6 @@ export function leaveRoom(chatId, userId) {
     const socket = connectSocket(userId,chatId);
     socket.off('chat_history')
     socket.off('new_message')
+    socket.off('notification')
     socket.emit('leave_room', { chatId, userId });
 }
