@@ -9,7 +9,7 @@ import { searchUserHandler } from "./handlers/chatsSearchUserHandler.js"
 import { getUserChats } from "./services/chatService.js"
 import { chatItemClickHandler } from "./handlers/chatItemClickHandler.js";
 import { connectSocket } from "./services/socketsSetup.js"
-import { sendMessageHandler } from "./handlers/messageHandler.js";
+import { sendMessageHandler } from "./handlers/sendMessageHandler.js";
 
 document.addEventListener('DOMContentLoaded', async() => {
     await checkAuthSession();

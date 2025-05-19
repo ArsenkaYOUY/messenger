@@ -1,22 +1,7 @@
 'use strict';
 
-import { sendMessage } from '../services/sendMessage.js'
 import { connectSocket, joinRoom } from '../services/socketsSetup.js'
 // import { updateChatPreview } from "../utils/renderChatItemUtils.js";
-
-export function sendMessageHandler(userId) {
-    document.getElementById('send-message-button').addEventListener('click', () => {
-        const inputEl = document.querySelector('.dialog-input');
-        const message =  inputEl.value.trim();
-        if (message) {
-            const chatElement = document.querySelector('.chat-item.active-chat')
-            const chatId = chatElement.id
-            const isGroupChat = chatElement.dataset.isGroup === 'true';
-            sendMessage(chatId, isGroupChat, message, userId)
-            inputEl.value = '';
-        }
-    });
-}
 
 export function socketEventsHandler(chatId, userId) {
     const socket = connectSocket(userId,chatId);
@@ -123,8 +108,6 @@ export function showNotification(chatId, messageContent) {
         });
     }
 }
-
-
 
 const messagesList = document.getElementById('messages-list');
 

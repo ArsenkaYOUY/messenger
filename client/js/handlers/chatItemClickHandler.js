@@ -1,6 +1,6 @@
 'use strict'
 
-import { socketEventsHandler } from "./messageHandler.js";
+import { socketEventsHandler } from "./socketEventsHandler.js";
 import { leaveRoom } from "../services/socketsSetup.js";
 
 export function chatItemClickHandler(userId) {

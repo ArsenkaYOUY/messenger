@@ -1,9 +1,11 @@
 'use strict'
 
 import { avatarManipulation } from "./avatarUtils.js";
+// import { socketEventsHandler } from "../handlers/socketEventsHandler.js";
 
 export function renderChatList(chats) {
     console.log('chats: ',chats )
+    // const { userId } = localStorage.getItem('userData')
 
     const list = document.getElementById('my-chats-list');
     list.innerHTML = '';
@@ -12,6 +14,7 @@ export function renderChatList(chats) {
         const chatItem = document.createElement('div');
         chatItem.classList.add('chat-item');
         chatItem.id = chat.id;
+        // socketEventsHandler(chatItem.id, userId);
         chatItem.dataset.isGroup = chat.isGroup;
 
         // Создаём уникальный ID для контейнера аватара
