@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async() => {
     setupAllEmptyStates()
     const userData = JSON.parse(localStorage.getItem('userData'));
     const { userId } = userData;
-    console.log(userId);
+    console.log(userData);
     connectSocket(userId);
     sendMessageHandler(userId);
     searchUserHandler()

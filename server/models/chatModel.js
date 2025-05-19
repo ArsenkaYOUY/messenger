@@ -38,7 +38,10 @@ export default class ChatModel {
                     m.content,
                     m.created_at,
                     u.id as sender_id,
-                    u.avatar_url,
+                    CASE
+                        WHEN c.is_group = true THEN u.avatar_url
+                        ELSE NULL
+                    END as avatar_url,
                     CASE 
                         WHEN c.is_group = true THEN u.full_name
                         ELSE NULL

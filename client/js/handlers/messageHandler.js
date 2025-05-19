@@ -9,9 +9,10 @@ export function sendMessageHandler(userId) {
         const inputEl = document.querySelector('.dialog-input');
         const message =  inputEl.value.trim();
         if (message) {
-            const chatId = document.querySelector('.chat-item.active-chat').id
-            console.log(chatId);
-            sendMessage(chatId, message, userId)
+            const chatElement = document.querySelector('.chat-item.active-chat')
+            const chatId = chatElement.id
+            const isGroupChat = chatElement.dataset.isGroup === 'true';
+            sendMessage(chatId, isGroupChat, message, userId)
             inputEl.value = '';
         }
     });
@@ -47,7 +48,7 @@ export function socketEventsHandler(chatId, userId) {
         else {
             if (userId !== data.message.sender_id) {
                 console.log('before notif',data)
-                const newData = { chatId: data.chatId, userId,  messageId : data.message.message_id  };
+                const newData = { message : data.message, chatId: data.chatId, userId,  messageId : data.message.id  };
                 console.log('change:', newData )
                 socket.emit('notification', newData)
             }
@@ -56,8 +57,34 @@ export function socketEventsHandler(chatId, userId) {
 
     socket.on('notification', (data) => {
         console.log('Получено уведомление от сервера: ', data)
+        showNotification(data.message.content, 'info',10000);
     })
+}
 
+function showNotification(message, type = 'info', duration = 3000) {
+    const container = document.getElementById('notification-container');
+    const notification = document.createElement('div');
+
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+
+    container.appendChild(notification);
+
+    // Показываем уведомление
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+
+    // Автоматическое скрытие через указанное время
+    setTimeout(() => {
+        notification.classList.remove('show');
+        notification.classList.add('notification-hide');
+
+        // Удаляем уведомление из DOM после анимации
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, duration);
 }
 
 const messagesList = document.getElementById('messages-list');

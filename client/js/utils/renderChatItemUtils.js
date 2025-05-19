@@ -12,6 +12,7 @@ export function renderChatList(chats) {
         const chatItem = document.createElement('div');
         chatItem.classList.add('chat-item');
         chatItem.id = chat.id;
+        chatItem.dataset.isGroup = chat.isGroup;
 
         // Создаём уникальный ID для контейнера аватара
         const avatarContainerId = `chat-avatar-${chat.id || index}`;
