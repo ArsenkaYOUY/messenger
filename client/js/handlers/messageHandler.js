@@ -40,6 +40,7 @@ export function socketEventsHandler(chatId, userId) {
             hasMessages = true;
         }
 
+        // Обновить chatItem
         // Обновить lastMessage, time у чата с data.chatId
         console.log("Новое сообщение:", data);
         if (data.chatId === chatId) {
@@ -57,35 +58,73 @@ export function socketEventsHandler(chatId, userId) {
 
     socket.on('notification', (data) => {
         console.log('Получено уведомление от сервера: ', data)
-        showNotification(data.message.content, 'info',10000);
+        showNotification(data.chatId, data.message.content);
     })
 }
 
-function showNotification(message, type = 'info', duration = 3000) {
-    const container = document.getElementById('notification-container');
+export function showNotification(chatId, messageContent) {
+    const chatItem = document.querySelector(`.chat-item[id="${chatId}"]`);
+    if (!chatItem) return;
+
+    const name = chatItem.querySelector('.chat-name').textContent;
+    const avatarContainer = chatItem.querySelector('.avatar-container');
+
     const notification = document.createElement('div');
+    notification.className = 'notification';
 
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
+    const avatarDiv = document.createElement('div');
+    avatarDiv.className = 'notification-avatar';
 
+    const avatarClone = avatarContainer.cloneNode(true);
+    avatarDiv.appendChild(avatarClone);
+
+    const now = new Date();
+    const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    notification.innerHTML = `
+        <div class="notification-content">
+            <div class="notification-header">
+                <span class="notification-name">${name}</span>
+                <span class="notification-time">${timeString}</span>
+            </div>
+            <div class="notification-message">${messageContent}</div>
+        </div>
+    `;
+
+    notification.prepend(avatarDiv);
+
+    const container = document.getElementById('notifications-container');
     container.appendChild(notification);
 
-    // Показываем уведомление
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 10);
+    notification.classList.add('show-notification');
 
-    // Автоматическое скрытие через указанное время
-    setTimeout(() => {
-        notification.classList.remove('show');
-        notification.classList.add('notification-hide');
+    playNotificationSound();
+    const hideTimeout = setTimeout(() => {
+        hideNotification(notification);
+    }, 8000);
 
-        // Удаляем уведомление из DOM после анимации
-        setTimeout(() => {
+    notification.addEventListener('click', () => {
+        clearTimeout(hideTimeout);
+        hideNotification(notification);
+        // Здесь можно добавить переход к чату
+    });
+
+    function playNotificationSound() {
+        const audio = new Audio();
+        audio.src = '../sounds/notification.mp3';
+        audio.volume = 0.3; // Уменьшаем громкость (0-1)
+        audio.play().catch(e => console.log('Не удалось воспроизвести звук:', e));
+    }
+
+    function hideNotification(notification) {
+        notification.classList.add('hide-notification');
+        notification.addEventListener('animationend', () => {
             notification.remove();
-        }, 300);
-    }, duration);
+        });
+    }
 }
+
+
 
 const messagesList = document.getElementById('messages-list');
 
