@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async() => {
     const userData = JSON.parse(localStorage.getItem('userData'));
     const { userId } = userData;
     console.log(userData);
-    connectSocket(userId);
+    connectSocket();
     sendMessageHandler(userId);
     searchUserHandler()
     await getUserChats()

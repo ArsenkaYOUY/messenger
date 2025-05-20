@@ -14,17 +14,22 @@ export function configureSockets(io) {
             users[userId] = socket.id
         })
 
-        socket.on('join_room', async (data) => {
-            const { chatId } = data
-            socket.join(chatId);
-            const messages = await getChatMessages(chatId);
-            socket.emit("chat_history", { chatId, messages: messages  } );
+        socket.on('join_room', async (room, callback) => {
+            socket.join(room);
+            callback(room);
         })
+
+
+        socket.on("chat_history", async (room, callback) => {
+            const messages = await getChatMessages(room);
+            callback(messages);
+        });
 
 
         // Обработка отправки сообщений
         socket.on("send_message", async (data) => {
             const { sender_id, chatId, isGroupChat, content, created_at } = data;
+            console.log('received message', data)
             try {
                 // Если чат не найден, создаем новый
                 if (!chatId) {
@@ -50,7 +55,7 @@ export function configureSockets(io) {
                     }
                 }
 
-                io.to(chatId).emit("new_message", {
+                socket.to(chatId).emit("new_message", {
                     chatId,
                     isGroupChat,
                     message: {
@@ -68,11 +73,12 @@ export function configureSockets(io) {
             }
         })
 
-        socket.on('notification', async (data) => {
-            const {chatId, userId : destUser, messageId } = data;
+        socket.on('notification', async (data, callback) => {
+            const {chatId, destUserId , messageId } = data;
+            console.log('received notification', data)
             try {
-                await createUnreadMessage(chatId, destUser, messageId);
-                socket.emit('notification',data)
+                await createUnreadMessage(chatId, destUserId, messageId);
+                callback(data);
             } catch (error) {
                 console.error('Ошибка отправки уведомления:', error);
             }

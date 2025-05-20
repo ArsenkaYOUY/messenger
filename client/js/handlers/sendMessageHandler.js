@@ -1,4 +1,5 @@
-import {sendMessage} from "../services/sendMessage.js";
+import {sendMessage} from "../services/socketsSetup.js";
+import { addMessageToChat } from "./socketEventsHandler.js";
 
 export function sendMessageHandler(userId) {
     document.getElementById('send-message-button').addEventListener('click', () => {

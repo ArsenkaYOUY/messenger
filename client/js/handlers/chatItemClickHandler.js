@@ -1,9 +1,7 @@
 'use strict'
+import { getChatHistory } from '../services/socketsSetup.js';
 
-import { socketEventsHandler } from "./socketEventsHandler.js";
-import { leaveRoom } from "../services/socketsSetup.js";
-
-export function chatItemClickHandler(userId) {
+export function chatItemClickHandler(globalUserId) {
     const chatItems = document.querySelectorAll('.chat-item');
     const dialog = document.getElementById('chat-dialog');
     const contextMenu = document.getElementById('chat-context-menu');
@@ -25,6 +23,9 @@ export function chatItemClickHandler(userId) {
 
             currentChat = chatItem.id;
             console.log('chatItem clicked');
+            console.log(globalUserId, currentChat);
+            getChatHistory(globalUserId, currentChat)
+
             hideChatItems()
             activateChatItem(chatItem);
 
@@ -34,8 +35,6 @@ export function chatItemClickHandler(userId) {
             const avatarContainer = dialog.querySelector('.dialog-avatar-container');
             avatarContainer.innerHTML =  chatItem.querySelector('.chat-avatar').innerHTML;
 
-            leaveRoom(chatItem.id,userId);
-            socketEventsHandler(chatItem.id, userId);
         })
 
         chatItem.addEventListener('contextmenu', (e) => {

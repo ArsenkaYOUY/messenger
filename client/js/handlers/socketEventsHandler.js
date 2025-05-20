@@ -1,51 +1,6 @@
 'use strict';
 
-import { connectSocket, joinRoom } from '../services/socketsSetup.js'
 // import { updateChatPreview } from "../utils/renderChatItemUtils.js";
-
-export function socketEventsHandler(chatId, userId) {
-    const socket = connectSocket(userId,chatId);
-
-    joinRoom(chatId, userId);
-
-    socket.on("chat_history", (data) => {
-        if (data.chatId === chatId) {
-            const { messages } = data;
-            console.log(messages)
-            renderChatMessages(userId,messages);
-        }
-    });
-
-    let hasMessages = false;
-    const emptyStateElement = document.getElementById('es-no-messages');
-
-    socket.on("new_message", (data) => {
-        if (!hasMessages && emptyStateElement) {
-            emptyStateElement.classList.add('hide');
-            hasMessages = true;
-        }
-
-        // Обновить chatItem
-        // Обновить lastMessage, time у чата с data.chatId
-        console.log("Новое сообщение:", data);
-        if (data.chatId === chatId) {
-            addMessageToChat(userId, data.message);
-        }
-        else {
-            if (userId !== data.message.sender_id) {
-                console.log('before notif',data)
-                const newData = { message : data.message, chatId: data.chatId, userId,  messageId : data.message.id  };
-                console.log('change:', newData )
-                socket.emit('notification', newData)
-            }
-        }
-    });
-
-    socket.on('notification', (data) => {
-        console.log('Получено уведомление от сервера: ', data)
-        showNotification(data.chatId, data.message.content);
-    })
-}
 
 export function showNotification(chatId, messageContent) {
     const chatItem = document.querySelector(`.chat-item[id="${chatId}"]`);
@@ -111,7 +66,7 @@ export function showNotification(chatId, messageContent) {
 
 const messagesList = document.getElementById('messages-list');
 
-function addMessageToChat(userId, message) {
+export function addMessageToChat(userId, message) {
     const messageElement = createMessageElement(userId,message);
 
     messagesList.appendChild(messageElement);
@@ -119,7 +74,7 @@ function addMessageToChat(userId, message) {
 
 let lastMessageDate = '';
 
-function renderChatMessages(userId,messages) {
+export function renderChatMessages(userId,messages) {
     clearMessages()
 
     const noMessagesEmptyState = document.getElementById('es-no-messages')
