@@ -49,9 +49,8 @@ function socketEventsHandler() {
             hasMessages = true;
         }
 
-        hasMessages = true;
         // Обновить chatItem
-        console.log(globalUserId, currentChatId)
+
         // Обновить lastMessage, time у чата с data.chatId
         console.log("Новое сообщение:", data);
         if (data.chatId === currentChatId) {
@@ -74,11 +73,6 @@ function socketEventsHandler() {
             })
         }
     });
-
-    // socket.on('notification', (data) => {
-    //     console.log('Получено уведомление от сервера: ', data)
-    //     showNotification(data.chatId, data.message.content);
-    // })
 }
 
 export function sendMessage(chatId, isGroupChat, message, userId) {

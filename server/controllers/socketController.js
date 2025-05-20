@@ -25,17 +25,14 @@ export function configureSockets(io) {
             callback(messages);
         });
 
-
         // Обработка отправки сообщений
         socket.on("send_message", async (data) => {
             const { sender_id, chatId, isGroupChat, content, created_at } = data;
-            console.log('received message', data)
             try {
                 // Если чат не найден, создаем новый
                 if (!chatId) {
 
                 }
-                console.log('isGroupChat type:', typeof isGroupChat, 'value:', isGroupChat);
                 let full_name = null;
                 let avatar_url = null;
 
@@ -75,18 +72,12 @@ export function configureSockets(io) {
 
         socket.on('notification', async (data, callback) => {
             const {chatId, destUserId , messageId } = data;
-            console.log('received notification', data)
             try {
                 await createUnreadMessage(chatId, destUserId, messageId);
                 callback(data);
             } catch (error) {
                 console.error('Ошибка отправки уведомления:', error);
             }
-        })
-
-        socket.on('leave_room', (data) => {
-            console.log(data.chatId)
-            socket.leave(data.chatId);
         })
 
         socket.on("disconnect", () => {

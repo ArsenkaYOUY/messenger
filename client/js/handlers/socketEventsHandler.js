@@ -41,7 +41,7 @@ export function showNotification(chatId, messageContent) {
     playNotificationSound();
     const hideTimeout = setTimeout(() => {
         hideNotification(notification);
-    }, 8000);
+    }, 5000);
 
     notification.addEventListener('click', () => {
         clearTimeout(hideTimeout);

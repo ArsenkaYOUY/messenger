@@ -1,5 +1,7 @@
 import {sendMessage} from "../services/socketsSetup.js";
-import { addMessageToChat } from "./socketEventsHandler.js";
+
+const noMessagesEmptyState = document.getElementById('es-no-messages');
+let isFirstMessage = true;
 
 export function sendMessageHandler(userId) {
     document.getElementById('send-message-button').addEventListener('click', () => {
@@ -12,5 +14,10 @@ export function sendMessageHandler(userId) {
             sendMessage(chatId, isGroupChat, message, userId)
             inputEl.value = '';
         }
+        if (isFirstMessage) {
+            if (noMessagesEmptyState)
+                noMessagesEmptyState.classList.add('hide');
+        }
+        isFirstMessage = false;
     });
 }
