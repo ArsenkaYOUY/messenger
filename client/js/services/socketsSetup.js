@@ -1,6 +1,7 @@
 import {showNotification} from "../utils/chatMessagesUtils.js";
 import { addMessageToChat } from "../utils/chatMessagesUtils.js"
 import { renderChatMessages } from "../utils/chatMessagesUtils.js";
+import {updateChatPreview} from "../utils/renderChatItemUtils.js";
 
 let socket = null;
 let currentChatId = null;
@@ -50,7 +51,7 @@ function socketEventsHandler() {
         }
 
         // Обновить chatItem
-
+        updateChatPreview(data.chatId, data.message.content, data.message.created_at)
         // Обновить lastMessage, time у чата с data.chatId
         console.log("Новое сообщение:", data);
         if (data.chatId === currentChatId) {

@@ -36,7 +36,7 @@ export default class ChatModel {
                 SELECT 
                     m.id,
                     m.content,
-                    m.created_at,
+                    m.created_at AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/Moscow' as created_at,
                     u.id as sender_id,
                     CASE
                         WHEN c.is_group = true THEN u.avatar_url
@@ -99,8 +99,10 @@ export default class ChatModel {
                         LIMIT 1
                     )
                 END as is_online,
-                    
-                c.updated_at AS "lastActivity", 
+                (SELECT m.created_at AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/Moscow' FROM messages m
+                WHERE m.chat_id = c.id
+                ORDER BY m.created_at DESC 
+                LIMIT 1) AS "lastActivity", 
                     
                  (SELECT content FROM messages WHERE chat_id = c.id ORDER BY
                   created_at DESC LIMIT 1) AS "lastMessage",
@@ -111,7 +113,7 @@ export default class ChatModel {
                 FROM chats c
                 JOIN chat_members cm ON c.id = cm.chat_id
                 WHERE cm.user_id = $1
-                ORDER BY c.updated_at DESC;
+                ORDER BY "lastActivity" DESC NULLS LAST;
         `;
             const result = await db.query(query, [userId]);
             if (result.rows && result.rows.length > 0) {

@@ -1,4 +1,5 @@
 import {sendMessage} from "../services/socketsSetup.js";
+import {updateChatPreview} from "../utils/renderChatItemUtils.js";
 
 const noMessagesEmptyState = document.getElementById('es-no-messages');
 let isFirstMessage = true;
@@ -12,6 +13,7 @@ export function sendMessageHandler(userId) {
             const chatId = chatElement.id
             const isGroupChat = chatElement.dataset.isGroup === 'true';
             sendMessage(chatId, isGroupChat, message, userId)
+            updateChatPreview(chatId, message, Date.now());
             inputEl.value = '';
         }
         if (isFirstMessage) {

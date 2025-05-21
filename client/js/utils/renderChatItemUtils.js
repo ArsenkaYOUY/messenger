@@ -2,7 +2,6 @@
 
 import { avatarManipulation } from "./avatarUtils.js";
 import { joinRoom } from "../services/socketsSetup.js";
-// import { socketEventsHandler } from "../handlers/chatMessagesUtils.js";
 
 export function renderChatList(chats) {
     console.log('chats: ',chats )
@@ -44,31 +43,31 @@ export function renderChatList(chats) {
 
         list.appendChild(chatItem);
 
-        // Вызов avatarManipulation после вставки
         const avatarContainer = chatItem.querySelector(`#${avatarContainerId}`);
         avatarManipulation(chat.avatar, avatarContainer, chat.name);
     });
 
-    function formatTime(timestamp) {
-        const date = new Date(timestamp);
-        const now = new Date();
-        const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+}
 
-        if (diffDays === 0) {
-            return date.toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit', hour12: false});
-        }
+function formatTime(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
 
-        if (diffDays === 1) {
-            return 'Вчера';
-        }
-
-        if (diffDays < 7) {
-            const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-            return days[date.getDay()];
-        }
-
-        return date.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
+    if (diffDays === 0) {
+        return date.toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit', hour12: false});
     }
+
+    if (diffDays === 1) {
+        return 'Вчера';
+    }
+
+    if (diffDays < 7) {
+        const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+        return days[date.getDay()];
+    }
+
+    return date.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
 const renderedUserIds = new Set();
@@ -103,6 +102,13 @@ export function renderFoundedUserItem(userData) {
     container.appendChild(chatItem);
 
     renderedUserIds.add(userData.id);
+}
+
+export function updateChatPreview(chatId, content, createdAt, unreadCount = 0) {
+    const chatItem = document.getElementById(chatId);
+    chatItem.querySelector('.last-message').innerHTML = content;
+    chatItem.querySelector('.chat-time').innerHTML = formatTime(createdAt);
+
 }
 
 export function cleanFoundedUsers() {
