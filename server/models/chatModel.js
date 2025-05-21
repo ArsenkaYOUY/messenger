@@ -30,7 +30,7 @@ export default class ChatModel {
         return rows[0];
     }
 
-    static async getMessages(chatId, limit = 50, offset = 0){
+    static async getMessages(chatId){
         try {
             const query = `
                 SELECT 
@@ -51,10 +51,9 @@ export default class ChatModel {
                 JOIN chats c ON m.chat_id = c.id
                 WHERE m.chat_id = $1
                 ORDER BY m.created_at ASC
-                LIMIT $2 OFFSET $3
             `
 
-            const result = await db.query(query, [chatId, limit, offset]);
+            const result = await db.query(query, [chatId]);
             return result.rows;
 
         }

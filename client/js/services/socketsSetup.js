@@ -1,6 +1,6 @@
-import {showNotification} from "../handlers/socketEventsHandler.js";
-import { addMessageToChat } from "../handlers/socketEventsHandler.js"
-import { renderChatMessages } from "../handlers/socketEventsHandler.js";
+import {showNotification} from "../utils/chatMessagesUtils.js";
+import { addMessageToChat } from "../utils/chatMessagesUtils.js"
+import { renderChatMessages } from "../utils/chatMessagesUtils.js";
 
 let socket = null;
 let currentChatId = null;

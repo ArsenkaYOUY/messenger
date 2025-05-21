@@ -70,6 +70,8 @@ export function addMessageToChat(userId, message) {
     const messageElement = createMessageElement(userId,message);
 
     messagesList.appendChild(messageElement);
+
+    messagesList.lastElementChild.scrollIntoView({ behavior: 'smooth' });
 }
 
 let lastMessageDate = '';
@@ -101,7 +103,8 @@ export function renderChatMessages(userId,messages) {
     });
 
     messagesList.appendChild(fragment);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    messagesList.lastElementChild.scrollIntoView();
 
     function clearMessages() {
         messagesList.innerHTML = '';

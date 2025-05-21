@@ -2,7 +2,7 @@
 
 import { avatarManipulation } from "./avatarUtils.js";
 import { joinRoom } from "../services/socketsSetup.js";
-// import { socketEventsHandler } from "../handlers/socketEventsHandler.js";
+// import { socketEventsHandler } from "../handlers/chatMessagesUtils.js";
 
 export function renderChatList(chats) {
     console.log('chats: ',chats )
