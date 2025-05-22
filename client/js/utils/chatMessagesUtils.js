@@ -1,8 +1,5 @@
 'use strict';
 
-// import { updateChatPreview } from "../utils/renderChatItemUtils.js";
-
-
 export function showNotification(chatId, messageContent) {
     const chatItem = document.querySelector(`.chat-item[id="${chatId}"]`);
     if (!chatItem) return;

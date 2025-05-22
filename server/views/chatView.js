@@ -27,7 +27,7 @@ export default class ChatView {
     // Чат уже существует
     static chatExists(chatId) {
         return {
-            success: false,
+            success: true,
             chatId,
             message: 'Личный чат уже существует'
         };

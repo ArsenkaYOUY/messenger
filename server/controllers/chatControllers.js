@@ -89,6 +89,7 @@ export async function createUserChat(req, res) {
         const isGroup = type === "group";
 
         const membersToAdd = [creatorId, ...members ];
+        console.log('membersToAdd', membersToAdd);
 
         if (!isGroup && members.length === 1) {
             const existingChatId = await ChatModel.findPrivateChat(

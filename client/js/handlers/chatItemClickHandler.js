@@ -1,73 +1,91 @@
-'use strict'
+'use strict';
+
 import { getChatHistory } from '../services/socketsSetup.js';
 
+export let currentChatItem = null;
+let lastRightClickedChatItem = null;
+
 export function chatItemClickHandler(globalUserId) {
-    const chatItems = document.querySelectorAll('.chat-item');
     const dialog = document.getElementById('chat-dialog');
     const contextMenu = document.getElementById('chat-context-menu');
     const backdropElement = document.getElementById('backdrop');
     const contextMenuItems = contextMenu.querySelectorAll('.context-menu-item');
 
-    let currentChat = null;
+    // Обработчик обычных кликов на документе
+    document.addEventListener('click', function(event) {
+        const chatItem = event.target.closest('.chat-item');
 
-    chatItems.forEach(chatItem => {
-        chatItem.addEventListener('click', (e) => {
-            e.preventDefault()
-            if (currentChat === chatItem.id)
-                return;
+        // Если клик не по чат-итему - скрываем контекстное меню
+        if (!chatItem) {
+            hideContextMenu();
+            return;
+        }
 
-            document.getElementById('es-no-chosen-chat').classList.add('hide');
-            document.querySelector('.dialog-messages').classList.remove('hide');
-            document.querySelector('.dialog-input-container').classList.remove('hide')
-            document.querySelector('.dialog-header').classList.remove('hide')
+        event.preventDefault();
 
-            currentChat = chatItem.id;
-            console.log('chatItem clicked');
-            console.log(globalUserId, currentChat);
-            getChatHistory(globalUserId, currentChat)
+        // Обработка кликов по пунктам контекстного меню
+        const contextMenuItem = event.target.closest('.context-menu-item');
+        if (contextMenuItem) {
+            handleContextMenuAction(contextMenuItem, lastRightClickedChatItem);
+            return;
+        }
 
-            hideChatItems()
-            activateChatItem(chatItem);
+        // Обычный клик по чат-итему
+        if (currentChatItem === chatItem.id) return;
 
-            const dialogName = dialog.querySelector('.dialog-name')
-            dialogName.textContent = chatItem.querySelector('.chat-name').textContent;
+        updateChatUI(chatItem, dialog);
+        currentChatItem = chatItem;
+        console.log('chatItem clicked', globalUserId, chatItem.id);
+        getChatHistory(globalUserId, chatItem.id);
+    });
 
-            const avatarContainer = dialog.querySelector('.dialog-avatar-container');
-            avatarContainer.innerHTML =  chatItem.querySelector('.chat-avatar').innerHTML;
+    // Обработчик правого клика на документе
+    document.addEventListener('contextmenu', function(event) {
+        const chatItem = event.target.closest('.chat-item');
+        if (!chatItem) return;
 
-        })
+        event.preventDefault();
+        event.stopPropagation();
 
-        chatItem.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
+        lastRightClickedChatItem = chatItem;
+        calcContextMenuCoordinates(event);
+        showContextMenu();
+    });
 
-            calcContextMenuCoordinates(e);
-            showContextMenu();
+    // Вспомогательные функции
+    function updateChatUI(chatItem, dialog) {
+        document.getElementById('es-no-chosen-chat').classList.add('hide');
+        document.querySelector('.dialog-messages').classList.remove('hide');
+        document.querySelector('.dialog-input-container').classList.remove('hide');
+        document.querySelector('.dialog-header').classList.remove('hide');
 
-            contextMenuItems.forEach(contextMenuItem => {
-                contextMenuItem.addEventListener('click', (e) => {
-                    e.preventDefault()
-                    console.log(chatItem)
-                    if (!chatItem) { return }
-                    if (contextMenuItem.dataset.action === 'mark-unread') {
-                        if (!chatItem.querySelector('.unread-badge')) {
-                            const unreadBadgeItem = document.createElement('div');
-                            unreadBadgeItem.classList.add('unread-badge');
-                            chatItem.querySelector('.chat-preview').appendChild(unreadBadgeItem);
-                        }
-                    }
-                })
-            })
-        })
+        hideChatItems();
+        activateChatItem(chatItem);
 
-        document.addEventListener('click',() => {
-            hideContextMenu()
-        })
-    })
+        const dialogName = dialog.querySelector('.dialog-name');
+        dialogName.textContent = chatItem.querySelector('.chat-name').textContent;
+
+        const avatarContainer = dialog.querySelector('.dialog-avatar-container');
+        avatarContainer.innerHTML = chatItem.querySelector('.chat-avatar').innerHTML;
+    }
+
+    function handleContextMenuAction(menuItem, chatItem) {
+        console.log(chatItem);
+        if (!chatItem) return;
+
+        if (menuItem.dataset.action === 'mark-unread') {
+            if (!chatItem.querySelector('.unread-badge')) {
+                const unreadBadgeItem = document.createElement('div');
+                unreadBadgeItem.classList.add('unread-badge');
+                chatItem.querySelector('.chat-preview').appendChild(unreadBadgeItem);
+            }
+        }
+        hideContextMenu();
+    }
 
     function showContextMenu() {
         contextMenu.classList.add('visible');
         backdropElement.classList.add('active');
-
     }
 
     function hideContextMenu() {
@@ -84,23 +102,17 @@ export function chatItemClickHandler(globalUserId) {
         let x = e.clientX;
         let y = e.clientY;
 
-        if (x + menuWidth > windowWidth) {
-            x = windowWidth - menuWidth - 10;
-        }
-
-        if (y + menuHeight > windowHeight) {
-            y = windowHeight - menuHeight - 10;
-        }
+        if (x + menuWidth > windowWidth) x = windowWidth - menuWidth - 10;
+        if (y + menuHeight > windowHeight) y = windowHeight - menuHeight - 10;
 
         contextMenu.style.left = x + 'px';
         contextMenu.style.top = y + 'px';
     }
 
     function hideChatItems() {
-        const chatItems = document.querySelectorAll('.chat-item');
-        chatItems.forEach(chatItem => {
-            chatItem.classList.remove('active-chat')
-        })
+        document.querySelectorAll('.chat-item').forEach(item => {
+            item.classList.remove('active-chat');
+        });
     }
 
     function activateChatItem(chatItem) {

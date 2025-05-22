@@ -19,20 +19,22 @@ export function configureSockets(io) {
             callback(room);
         })
 
-
         socket.on("chat_history", async (room, callback) => {
-            const messages = await getChatMessages(room);
+            let messages = null;
+            if (room) {
+                messages = await getChatMessages(room);
+            }
             callback(messages);
         });
+
+        socket.on("create_room", (room) => {
+
+        })
 
         // Обработка отправки сообщений
         socket.on("send_message", async (data) => {
             const { sender_id, chatId, isGroupChat, content, created_at } = data;
             try {
-                // Если чат не найден, создаем новый
-                if (!chatId) {
-
-                }
                 let full_name = null;
                 let avatar_url = null;
 

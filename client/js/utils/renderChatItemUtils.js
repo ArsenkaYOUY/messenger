@@ -2,6 +2,11 @@
 
 import { avatarManipulation } from "./avatarUtils.js";
 import { joinRoom } from "../services/socketsSetup.js";
+import { getChatHistory } from "../services/socketsSetup.js";
+import { createChat }  from '../api/chatApi.js'
+import { getUserChats } from "../services/chatService.js";
+import { currentChatItem } from '../handlers/chatItemClickHandler.js';
+import { createRoom } from "../services/socketsSetup.js";
 
 export function renderChatList(chats) {
     console.log('chats: ',chats )
@@ -14,6 +19,10 @@ export function renderChatList(chats) {
         chatItem.classList.add('chat-item');
         chatItem.id = chat.id;
         chatItem.dataset.isGroup = chat.isGroup;
+
+        if (currentChatItem && currentChatItem.id === chatItem.id) {
+            chatItem.classList.add('active-chat');
+        }
 
         joinRoom(chatItem.id);
 
@@ -47,6 +56,7 @@ export function renderChatList(chats) {
         avatarManipulation(chat.avatar, avatarContainer, chat.name);
     });
 
+
 }
 
 function formatTime(timestamp) {
@@ -73,7 +83,9 @@ function formatTime(timestamp) {
 const renderedUserIds = new Set();
 
 export function renderFoundedUserItem(userData) {
-    if (renderedUserIds.has(userData.id)) return;
+    const globalUserData = JSON.parse(localStorage.getItem('userData'));
+    const { userId : globalUserId } = globalUserData;
+    if (renderedUserIds.has(userData.id) || userData.id === globalUserId) return;
 
     const container = document.getElementById('founded-users-list');
     const chatItem = document.createElement('div');
@@ -102,6 +114,40 @@ export function renderFoundedUserItem(userData) {
     container.appendChild(chatItem);
 
     renderedUserIds.add(userData.id);
+
+    chatItem.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation()
+
+        // Создаем чат через REST API
+        try {
+
+            const globalUserData = JSON.parse(localStorage.getItem('userData'));
+            const { userId : globalUserId } = globalUserData;
+            console.log(globalUserId);
+            const response = await createChat('private', [userData.id], globalUserId);
+
+            if (!response.ok) {
+                throw new Error(response.error);
+            }
+            const result = await response.json();
+            console.log('renderFoundedUserItem res: ', result);
+            // Обновляем UI
+            document.getElementById('es-no-chosen-chat').classList.add('hide');
+            // ... остальной код для отображения чата
+            const searchElement = document.getElementById('chats-search-user');
+            searchElement.value = ''
+            cleanFoundedUsers()
+            getChatHistory(globalUserId, result.chatId);
+            joinRoom(result.chatId.toString());
+            if (!result.message){
+                createRoom(result.chatId);
+            }
+
+        } catch (error) {
+            console.error('Ошибка создания чата:', error);
+        }
+    });
 }
 
 export function updateChatPreview(chatId, content, createdAt, unreadCount = 0) {
@@ -111,7 +157,7 @@ export function updateChatPreview(chatId, content, createdAt, unreadCount = 0) {
 
 }
 
-export function cleanFoundedUsers() {
+export async function  cleanFoundedUsers() {
     renderedUserIds.clear();
     const skeletonElement = document.getElementById('search-skeleton-container');
     if (skeletonElement)
@@ -121,5 +167,6 @@ export function cleanFoundedUsers() {
     const notFoundElement = document.getElementById('es-user-not-found');
     if (notFoundElement)
         notFoundElement.classList.add('hide');
+    await getUserChats();
     document.getElementById('my-chats-list').classList.remove('hide');
 }

@@ -4,7 +4,7 @@ import { searchUserService } from "../services/userService.js";
 import { renderFoundedUserItem } from "../utils/renderChatItemUtils.js";
 import { cleanFoundedUsers } from "../utils/renderChatItemUtils.js";
 
-export function searchUserHandler() {
+export async function searchUserHandler() {
     const searchElement = document.getElementById('chats-search-user');
     const notFoundElement = document.getElementById('es-user-not-found');
     const skeletonElement = document.getElementById('search-skeleton-container');
@@ -29,7 +29,7 @@ export function searchUserHandler() {
                 let input = searchElement.value.trim();
 
                 if (input === '') {
-                    cleanFoundedUsers();
+                    await cleanFoundedUsers();
                     return;
                 }
 
@@ -47,6 +47,7 @@ export function searchUserHandler() {
                             console.log(result.userData);
                             notFoundElement.classList.add('hide');
                             const userData = result.userData;
+                            console.log(userData)
                             renderFoundedUserItem(userData);
                             if (skeletonElement)
                                 skeletonElement.classList.add('hide')
