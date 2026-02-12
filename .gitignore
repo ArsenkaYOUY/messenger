@@ -6,6 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+
+# Dependencies
 node_modules
 dist
 dist-ssr
@@ -15,20 +17,24 @@ node_modules/
 */**/node_modules/
 client/node_modules/
 server/node_modules/
-server/uploads/
+
+server/uploads/*
+!server/uploads/.gitkeep
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea/
+**/.idea/
+*/**/.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-**/.idea/
-*/**/.idea/
 
+# Environment
 .env
 .env.local
 .env.*.local
